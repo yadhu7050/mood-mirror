@@ -1,0 +1,114 @@
+{
+    "admiration": [
+        {"text": "Think about someone who inspires you and what qualities you admire in them."},
+        {"text": "Express your admiration to someone today—it can brighten their day!"}
+    ],
+    "amusement": [
+        {"text": "Watch a funny video or listen to a comedy podcast to lighten your mood."},
+        {"text": "Laughter is great for the soul! Share a joke with a friend."}
+    ],
+    "anger": [
+        {"text": "Try deep breathing or a quick workout to release pent-up energy."},
+        {"text": "Writing down your thoughts can help process your emotions."}
+    ],
+    "annoyance": [
+        {"text": "Take a short break and practice mindfulness to reset your mindset."},
+        {"text": "Remind yourself that small annoyances are temporary."}
+    ],
+    "approval": [
+        {"text": "Recognize your achievements, no matter how small, and reward yourself."},
+        {"text": "Give yourself credit for your hard work and dedication."}
+    ],
+    "caring": [
+        {"text": "Reach out to a friend or family member and check in on them."},
+        {"text": "Small acts of kindness can make a big impact on someone's day."}
+    ],
+    "confusion": [
+        {"text": "Write down your thoughts to organize them or seek advice from someone you trust."},
+        {"text": "It's okay to not have all the answers—take things one step at a time."}
+    ],
+    "curiosity": [
+        {"text": "Explore a new topic or skill that excites you."},
+        {"text": "Curiosity fuels growth! Look up something new today."}
+    ],
+    "desire": [
+        {"text": "Set a small goal that aligns with what you truly want and take the first step today."},
+        {"text": "Reflect on what you desire and create a plan to move closer to it."}
+    ],
+    "disappointment": [
+        {"text": "Remember that setbacks are part of growth. Reflect on what you learned and move forward."},
+        {"text": "It's okay to feel disappointed, but don't let it define your future."}
+    ],
+    "disapproval": [
+        {"text": "Focus on constructive feedback and how it can help you improve."},
+        {"text": "Understand the reasons behind disapproval and use it as a learning experience."}
+    ],
+    "disgust": [
+        {"text": "Take a moment to ground yourself with a deep breath and shift your focus to something positive."},
+        {"text": "Try to reframe your perspective and focus on things that bring you joy."}
+    ],
+    "embarrassment": [
+        {"text": "Everyone makes mistakes. Laugh it off and remind yourself that it’s part of being human."},
+        {"text": "No one remembers small embarrassing moments as much as you do—let it go!"}
+    ],
+    "excitement": [
+        {"text": "Channel your energy into something creative or start planning your next adventure."},
+        {"text": "Let your excitement fuel your motivation—what's next on your list?"}
+    ],
+    "fear": [
+        {"text": "Face your fears in small steps and remind yourself of past times you overcame challenges."},
+        {"text": "Breathe deeply and remind yourself that fear is just temporary."}
+    ],
+    "gratitude": [
+        {"text": "Write down three things you’re grateful for to boost your positive mindset."},
+        {"text": "Expressing gratitude can shift your perspective—try thanking someone today."}
+    ],
+    "grief": [
+        {"text": "Allow yourself to feel, but also find comfort in talking to someone who understands."},
+        {"text": "Healing takes time—be gentle with yourself during this process."}
+    ],
+    "joy": [
+        {"text": "Share your happiness with others—celebrate and spread the good vibes!"},
+        {"text": "Happiness grows when shared—who can you share your joy with today?"}
+    ],
+    "love": [
+        {"text": "Express your feelings to someone you care about and make their day brighter."},
+        {"text": "Love is a beautiful thing—nurture your relationships and cherish those around you."}
+    ],
+    "nervousness": [
+        {"text": "Take slow, deep breaths and remind yourself that you are capable."},
+        {"text": "Try visualization techniques to calm your nerves before an important moment."}
+    ],
+    "optimism": [
+        {"text": "Use this positive energy to set new goals and take action toward them."},
+        {"text": "Optimism is a strength—embrace it and inspire others with your mindset."}
+    ],
+    "pride": [
+        {"text": "Celebrate your achievements, no matter how small, and acknowledge your progress."},
+        {"text": "Confidence comes from recognizing your own strengths—keep believing in yourself!"}
+    ],
+    "realization": [
+        {"text": "Write down your thoughts and explore how this new understanding can help you grow."},
+        {"text": "Every realization is a step forward—use it to guide your next move."}
+    ],
+    "relief": [
+        {"text": "Take a deep breath and enjoy the peace of mind that comes with overcoming a challenge."},
+        {"text": "Use this moment of relief to recharge and refocus."}
+    ],
+    "remorse": [
+        {"text": "Apologize or make amends if necessary, then focus on learning from the experience."},
+        {"text": "Self-forgiveness is key—acknowledge mistakes but don’t dwell on them."}
+    ],
+    "sadness": [
+        {"text": "Listen to soothing music or write down your feelings to process them gently."},
+        {"text": "It's okay to feel sad—give yourself the space to heal and find comfort in small joys."}
+    ],
+    "surprise": [
+        {"text": "Embrace the unexpected! Look at how this new development could be an opportunity."},
+        {"text": "Surprises can be good or bad, but they always bring growth—lean into the change."}
+    ],
+    "neutral": [
+        {"text": "Take a moment to check in with yourself and reflect on how you're feeling today."},
+        {"text": "A neutral state can be a great time for self-reflection and planning ahead."}
+    ]
+}
