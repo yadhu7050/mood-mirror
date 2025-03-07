@@ -1,0 +1,107 @@
+body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    background-image: url('/static/solid-navy-blue-concrete-textured-wall.jpg');
+    color: #ffffff;
+}
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #000000;
+}
+.navbar a {
+    color: #ffffff;
+    text-decoration: none;
+    margin: 0 15px;
+    font-size: 16px;
+}
+.navbar a:hover {
+    text-decoration: underline;
+}
+.navbar .logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+.navbar .profile {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #333333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    font-weight: bold;
+}
+.header {
+    text-align: center;
+    padding: 50px 20px;
+}
+.header h1 {
+    font-size: 48px;
+    font-weight: bold;
+    margin: 20px 0;
+}
+.header p {
+    font-size: 18px;
+    color: #a0a0a0;
+}
+.header .btn-group {
+    margin-top: 30px;
+}
+.header .btn {
+    padding: 15px 30px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 0 10px;
+}
+.header .btn-primary {
+    background-color: #7f00ff;
+    color: #ffffff;
+}
+.header .btn-secondary {
+    background-color: #9b149b;
+    color: #ffffff;
+}
+.features {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 50px 20px;
+}
+.feature {
+    background-color: #1e1e1e;
+    border-radius: 10px;
+    padding: 30px;
+    margin: 10px;
+    width: 250px;
+    text-align: center;
+}
+.feature i {
+    font-size: 36px;
+    color: #7f00ff;
+    margin-bottom: 20px;
+}
+.feature h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+.feature p {
+    font-size: 16px;
+    color: #a0a0a0;
+}
+.btn-group {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+.logo{
+    font-size: 24px;
+    font-weight: bold;
+    color: #ffffff;
+    text-align: center;
+}

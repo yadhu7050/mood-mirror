@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MoodMirror History</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/journal">New Entry</a>
+        <a href="/history">History</a>
+    </div>
+
+    <h1>Mood Journal History</h1>
+    
+    <div class="entries-container">
+        {% for entry in entries %}
+        <div class="entry-card">
+            <div class="entry-header">
+                <h3>{{ entry.title }}</h3>
+                <span class="date">{{ entry.date.strftime('%Y-%m-%d %H:%M') }}</span>
+            </div>
+            <div class="entry-content">
+                <p class="reason">Category: {{ entry.reason }}</p>
+                <p class="journal-text">{{ entry.text }}</p>
+                <p class="mood">Mood: {{ entry.mood }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <a href="/journal" class="history-link">Add New Entry</a>
+</body>
+</html>
