@@ -1,7 +1,7 @@
 # 🌙 MoodMirror - AI-Powered Emotional Journal
 
 <div align="center">
-  <img src="/static/solid-navy-blue-concrete-textured-wall.jpg" alt="MoodMirror Banner" width="600"/>
+  <img src="https://miro.medium.com/v2/resize:fit:1200/0*oWRpwhaPxCJR-tGU.png" alt="MoodMirror Banner" width="600"/>
 </div>
 
 ## 📖 About
@@ -124,10 +124,10 @@ class Journal(db.Model):
 
 | Method | Route         | Description                         | Authentication Required |
 |--------|--------------|-------------------------------------|----------------------|
-| GET    | /            | Home page                           | No                   |
-| GET    | /start       | Login page                          | No                   |
-| POST   | /login       | User login                          | No                   |
-| POST   | /signup      | User registration                   | No                   |
+| GET    | /            | Home page                           | Yes                   |
+| GET    | /start       | Login page                          | Yes                   |
+| POST   | /login       | User login                          | Yes                   |
+| POST   | /signup      | User registration                   | Yes                   |
 | GET/POST| /signup_quiz | Emotional baseline quiz             | Yes                  |
 | GET/POST| /journal     | Journal entry creation              | Yes                  |
 | GET    | /history     | View past journal entries           | Yes                  |
