@@ -124,7 +124,7 @@ class Journal(db.Model):
 
 | Method | Route         | Description                         | Authentication Required |
 |--------|--------------|-------------------------------------|----------------------|
-| GET    | /            | Home page                           | Yes                   |
+| GET    | /            | Home page                           | No                   |
 | GET    | /start       | Login page                          | Yes                   |
 | POST   | /login       | User login                          | Yes                   |
 | POST   | /signup      | User registration                   | Yes                   |
