@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MoodMirror History</title>
+    <title>Journal History</title>
     <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
@@ -12,25 +12,34 @@
         <a href="/journal">New Entry</a>
         <a href="/history">History</a>
     </div>
-
-    <h1>Mood Journal History</h1>
+    
+    <h1>Your Journal History</h1>
+    
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="flash-message">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
     
     <div class="entries-container">
-        {% for entry in entries %}
-        <div class="entry-card">
-            <div class="entry-header">
-                <h3>{{ entry.title }}</h3>
-                <span class="date">{{ entry.date.strftime('%Y-%m-%d %H:%M') }}</span>
-            </div>
-            <div class="entry-content">
-                <p class="reason">Category: {{ entry.reason }}</p>
-                <p class="journal-text">{{ entry.text }}</p>
-                <p class="mood">Mood: {{ entry.mood }}</p>
-            </div>
-        </div>
-        {% endfor %}
+        {% if entries %}
+            {% for entry in entries %}
+                <div class="entry-card">
+                    <h2>{{ entry.title }}</h2>
+                    <p class="entry-date">{{ entry.date }}</p>
+                    <p class="entry-reason">Reason: {{ entry.reason }}</p>
+                    <p class="entry-text">{{ entry.text }}</p>
+                    <div class="emotions">
+                        <p>Primary Emotion: {{ entry.primary_emotion }} ({{ entry.primary_emotion_percentage }}%)</p>
+                        <p>Secondary Emotion: {{ entry.secondary_emotion }} ({{ entry.secondary_emotion_percentage }}%)</p>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="no-entries">No journal entries yet. Start writing!</p>
+        {% endif %}
     </div>
-
-    <a href="/journal" class="history-link">Add New Entry</a>
 </body>
 </html>

@@ -15,12 +15,11 @@
     <h1 class="main-head">MoodMirror Journal</h1>
     
     <!-- Journal Entry Form -->
-    <form action="/journal" method="POST">
+    <form id="journalForm" action="/journal" method="POST">
         <label class="title-label">Title:</label><br>
         <input class="input-box1" type="text" name="title" required><br><br>
 
         <label class="reason-label">Reason:</label><br>
-        <!-- Hidden input to store the selected reason -->
         <input type="hidden" name="reason" id="selected-reason" value="" required>
         <span class="container">
             <button type="button" class="clicking" onclick="selectReason('work')">Work</button>
@@ -31,22 +30,108 @@
         </span><br>
 
         <label class="journalentry-head">Journal Entry:</label><br>
-        <textarea name="journal_text" rows="5" required></textarea><br>
+        <textarea name="journal_text" id="journal_text" rows="5" required></textarea><br>
 
-        <div class="suggestion">
-            <p>{{ suggestion }}</p>
-            <blockquote>{{ quote }}</blockquote>
-            <div class="media-links">
-                <a href="{{ video_link }}" target="_blank">Watch a helpful video</a>
-                <a href="{{ playlist_link }}" target="_blank">Listen to a curated playlist</a>
+        <div id="analysis-results" style="display: none;">
+            <div class="emotions-analysis">
+                <p>Primary Emotion: <span id="primary-emotion"></span> (<span id="primary-percentage"></span>%)</p>
+                <p>Secondary Emotion: <span id="secondary-emotion"></span> (<span id="secondary-percentage"></span>%)</p>
+            </div>
+            <div class="suggestion">
+                <p id="suggestion-text"></p>
+                <blockquote id="quote-text"></blockquote>
+                <div class="media-links">
+                    <a id="video-link" href="" target="_blank">Watch a helpful video</a>
+                    <a id="playlist-link" href="" target="_blank">Listen to a curated playlist</a>
+                </div>
             </div>
         </div>
 
-        <button type="submit">Save to Journal</button>
+        <button type="button" onclick="analyzeEntry()" class="analyze-btn">Analyze Entry</button>
+        <button type="submit" id="save-button" style="display: none;">Save to Journal</button>
     </form>
 
-    <a class="history-link" href="/history">View Journal History</a>
+    <script>
+    function selectReason(reason) {
+        document.querySelectorAll('.clicking').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        event.target.classList.add('active');
+        document.getElementById('selected-reason').value = reason;
+    }
 
-    <script src="/static/script.js"></script>
+    async function analyzeEntry() {
+        const text = document.getElementById('journal_text').value;
+        const title = document.querySelector('input[name="title"]').value;
+        const reason = document.getElementById('selected-reason').value;
+
+        if (!text || !title || !reason) {
+            alert('Please fill in all fields before analyzing');
+            return;
+        }
+
+        try {
+            const response = await fetch('/journal', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: JSON.stringify({
+                    journal_text: text,
+                    title: title,
+                    reason: reason
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            
+            if (data.success) {
+                // Show analysis results
+                document.getElementById('analysis-results').style.display = 'block';
+                
+                // Update emotions
+                document.getElementById('primary-emotion').textContent = data.primary_emotion;
+                document.getElementById('primary-percentage').textContent = data.primary_emotion_percentage;
+                document.getElementById('secondary-emotion').textContent = data.secondary_emotion;
+                document.getElementById('secondary-percentage').textContent = data.secondary_emotion_percentage;
+                
+                // Update suggestion and quote
+                document.getElementById('suggestion-text').textContent = data.suggestion;
+                document.getElementById('quote-text').textContent = data.quote;
+                
+                // Update media links
+                const videoLink = document.getElementById('video-link');
+                const playlistLink = document.getElementById('playlist-link');
+                
+                if (data.video_link) {
+                    videoLink.href = data.video_link;
+                    videoLink.style.display = 'inline-block';
+                } else {
+                    videoLink.style.display = 'none';
+                }
+                
+                if (data.playlist_link) {
+                    playlistLink.href = data.playlist_link;
+                    playlistLink.style.display = 'inline-block';
+                } else {
+                    playlistLink.style.display = 'none';
+                }
+                
+                // Show save button
+                document.getElementById('save-button').style.display = 'block';
+            } else {
+                throw new Error(data.error || 'Analysis failed');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('An error occurred during analysis. Please try again.');
+        }
+    }
+    </script>
 </body>
 </html>

@@ -77,17 +77,57 @@ button:hover {
 
 .entries-container {
     max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
+    margin: 20px auto;
+    padding: 0 20px;
 }
 
 .entry-card {
-    background: white;
-    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
     padding: 20px;
     margin-bottom: 20px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    text-align: left;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.entry-card h2 {
+    margin: 0 0 10px 0;
+    color: #fff;
+}
+
+.entry-date {
+    color: #aaa;
+    font-size: 0.9em;
+    margin-bottom: 10px;
+}
+
+.entry-reason {
+    color: #ddd;
+    font-style: italic;
+    margin-bottom: 15px;
+}
+
+.entry-text {
+    color: #fff;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.emotions {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 15px;
+    color: #ddd;
+}
+
+.emotions p {
+    margin: 5px 0;
+}
+
+.no-entries {
+    text-align: center;
+    color: #aaa;
+    font-size: 1.2em;
+    margin-top: 50px;
 }
 
 .entry-header {
@@ -116,18 +156,6 @@ button:hover {
 .journal-text {
     margin: 15px 0;
     line-height: 1.6;
-}
-
-.emotions {
-    margin: 15px 0;
-}
-
-.emotion {
-    display: inline-block;
-    padding: 5px 10px;
-    border-radius: 15px;
-    margin-right: 10px;
-    font-size: 0.9em;
 }
 
 .primary {
@@ -262,4 +290,46 @@ button:hover {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.emotions-analysis {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.emotions-analysis p {
+    margin: 5px 0;
+    color: #fff;
+}
+
+.suggestion {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 15px;
+}
+
+.suggestion blockquote {
+    border-left: 3px solid #4CAF50;
+    padding-left: 15px;
+    margin: 15px 0;
+    color: #ddd;
+    font-style: italic;
+}
+
+.media-links {
+    margin-top: 15px;
+}
+
+.media-links a {
+    display: inline-block;
+    margin-right: 15px;
+    color: #4CAF50;
+    text-decoration: none;
+}
+
+.media-links a:hover {
+    text-decoration: underline;
 }

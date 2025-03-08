@@ -8,6 +8,64 @@ import json  # Added import
 import random  # Added import
 from transformers import pipeline  # Added import
 
+
+emotion_pipeline = pipeline("text-classification", model="SamLowe/roberta-base-go_emotions", top_k=2)
+
+def get_dynamic_suggestion(primary_emotion, secondary_emotion, text):
+    """Generate a meaningful suggestion with media recommendations from JSON.
+    
+    Args:
+        primary_emotion (str): The main emotion detected
+        secondary_emotion (str): The secondary emotion detected
+        text (str): The journal text input
+    Returns:
+        dict: A dictionary containing suggestion text and media links
+    """
+    # Convert emotions to lowercase for matching
+    primary = primary_emotion.lower()
+    secondary = secondary_emotion.lower()
+    
+    # Default suggestion if emotion not found or JSON fails
+    default_suggestion = {
+        "text": "Take a deep breath and reflect on your feelings.",
+        "video_link": "",
+        "playlist_link": "",
+        "quote": "Every moment is a fresh beginning."
+    }
+    
+    try:
+        # Load suggestions from JSON file
+        with open("suggestions.json", "r") as file:
+            SUGGESTIONS = json.load(file)
+        
+        # Get suggestions for both emotions or use defaults
+        primary_suggestions = SUGGESTIONS.get(primary, [default_suggestion])
+        secondary_suggestions = SUGGESTIONS.get(secondary, [default_suggestion])
+        
+        # Randomly select suggestion objects from each emotion
+        primary_suggestion = random.choice(primary_suggestions)
+        secondary_suggestion = random.choice(secondary_suggestions)
+        
+        # Create a personalized touch based on text length
+        if len(text) > 100:
+            dynamic_part = " Your detailed reflection shows you're processing your emotions well."
+        else:
+            dynamic_part = " Consider expanding on your thoughts to better understand your feelings."
+        
+        # Combine the suggestions and media links
+        response = {
+            "text": f"{primary_suggestion['text']} {secondary_suggestion['text']}{dynamic_part}",
+            "quote": primary_suggestion['quote'],  # Use primary emotion's quote
+            "video_link": primary_suggestion['video_link'],  # Use primary emotion's video
+            "playlist_link": secondary_suggestion['playlist_link']  # Use secondary emotion's playlist
+        }
+        
+        return response
+        
+    except Exception as e:
+        print(f"Error loading suggestions: {e}")
+        return default_suggestion  
+
 app = Flask(__name__)
 
 # Setup for the app
@@ -57,7 +115,11 @@ class Journal(db.Model):
     text = db.Column(db.Text, nullable=False)
     reason = db.Column(db.String(100))
     date = db.Column(db.DateTime, default=datetime.utcnow)
-    mood = db.Column(db.String(50))  # Add mood field
+    mood = db.Column(db.String(50))
+    primary_emotion = db.Column(db.String(50))
+    primary_emotion_percentage = db.Column(db.Float)
+    secondary_emotion = db.Column(db.String(50))
+    secondary_emotion_percentage = db.Column(db.Float)
 
     def __repr__(self):
         return f'<Journal {self.title}>'
@@ -276,114 +338,115 @@ def signup_quiz():
 @app.route('/journal', methods=['GET', 'POST'])
 @login_required
 def journal():
-    emotion_pipeline = pipeline("text-classification", model="SamLowe/roberta-base-go_emotions", top_k=2)
-
     if request.method == "POST":
-        text = request.form["journal_text"]
-        title = request.form["title"]
-        reason = request.form["reason"]
-        date = datetime.utcnow()
-        
-        # Analyze emotions for the journal entry
-        emotion_results = emotion_pipeline(text)[0]
-        primary_emotion = emotion_results[0]['label']
-        primary_emotion_percentage = emotion_results[0]['score'] * 100
-        secondary_emotion = emotion_results[1]['label']
-        secondary_emotion_percentage = emotion_results[1]['score'] * 100
-        
-        # Get suggestion with media links
-        suggestion_data = get_dynamic_suggestion(primary_emotion, secondary_emotion, text)
-        
-        # Create and save new journal entry
-        entry = Journal(
-            user_id=current_user.id,  # Add user_id
-            date=date,
-            title=title,
-            reason=reason,
-            text=text,
-            mood=primary_emotion  # Store primary emotion as mood
-        )
-        db.session.add(entry)
-        db.session.commit()
-        
-        # Return JSON response for AJAX requests
-        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-            return jsonify({
-                "primary_emotion": primary_emotion,
-                "primary_emotion_percentage": primary_emotion_percentage,
-                "secondary_emotion": secondary_emotion,
-                "secondary_emotion_percentage": secondary_emotion_percentage,
-                "suggestion": suggestion_data["text"],
-                "quote": suggestion_data["quote"],
-                "video_link": suggestion_data["video_link"],
-                "playlist_link": suggestion_data["playlist_link"]
-            })
+        try:
+            # Check if it's an AJAX request for analysis
+            if request.is_json:
+                data = request.get_json()
+                text = data.get('journal_text')
+                
+                # Analyze emotions
+                emotion_results = emotion_pipeline(text)[0]
+                primary_emotion = emotion_results[0]['label']
+                primary_emotion_percentage = emotion_results[0]['score'] * 100
+                secondary_emotion = emotion_results[1]['label']
+                secondary_emotion_percentage = emotion_results[1]['score'] * 100
+                
+                # Get suggestions
+                suggestion_data = get_dynamic_suggestion(primary_emotion, secondary_emotion, text)
+                
+                # Return analysis results with emotions
+                return jsonify({
+                    "success": True,
+                    "primary_emotion": primary_emotion,
+                    "primary_emotion_percentage": f"{primary_emotion_percentage:.1f}",
+                    "secondary_emotion": secondary_emotion,
+                    "secondary_emotion_percentage": f"{secondary_emotion_percentage:.1f}",
+                    "suggestion": suggestion_data["text"],
+                    "quote": suggestion_data["quote"],
+                    "video_link": suggestion_data["video_link"],
+                    "playlist_link": suggestion_data["playlist_link"]
+                })
+            else:
+                # Regular form submission
+                text = request.form.get("journal_text")
+                title = request.form.get("title")
+                reason = request.form.get("reason")
+                
+                if not text or not title or not reason:
+                    flash("Please fill in all required fields", "error")
+                    return redirect(url_for("journal"))
+                
+                # Analyze emotions
+                emotion_results = emotion_pipeline(text)[0]
+                primary_emotion = emotion_results[0]['label']
+                primary_emotion_percentage = emotion_results[0]['score'] * 100
+                secondary_emotion = emotion_results[1]['label']
+                secondary_emotion_percentage = emotion_results[1]['score'] * 100
+                
+                # Create journal entry
+                entry = Journal(
+                    user_id=current_user.id,
+                    title=title,
+                    text=text,
+                    reason=reason,
+                    date=datetime.utcnow(),
+                    mood=primary_emotion,
+                    primary_emotion=primary_emotion,
+                    primary_emotion_percentage=primary_emotion_percentage,
+                    secondary_emotion=secondary_emotion,
+                    secondary_emotion_percentage=secondary_emotion_percentage
+                )
+                
+                db.session.add(entry)
+                db.session.commit()
+                
+                flash("Journal entry saved successfully!", "success")
+                return redirect(url_for("history"))
             
-        return redirect(url_for("history"))
-        
+        except Exception as e:
+            print(f"Error in journal route: {str(e)}")
+            if request.is_json:
+                return jsonify({"success": False, "error": str(e)}), 500
+            db.session.rollback()
+            flash(f"An error occurred: {str(e)}", "error")
+            return redirect(url_for("journal"))
+    
     return render_template("journal.html")
 
-def get_dynamic_suggestion(primary_emotion, secondary_emotion, text):
-    """Generate a meaningful suggestion with media recommendations from JSON.
     
-    Args:
-        primary_emotion (str): The main emotion detected
-        secondary_emotion (str): The secondary emotion detected
-        text (str): The journal text input
-    Returns:
-        dict: A dictionary containing suggestion text and media links
-    """
-    # Convert emotions to lowercase for matching
-    primary = primary_emotion.lower()
-    secondary = secondary_emotion.lower()
-    
-    # Load suggestions from JSON file
-    try:
-        with open("suggestions.json", "r") as file:
-            SUGGESTIONS = json.load(file)
-    except FileNotFoundError:
-        return {
-            "text": "Take a moment to reflect on your feelings.",
-            "video_link": "",
-            "playlist_link": "",
-            "quote": ""
-        }
-    
-    # Get suggestions for both emotions or use defaults
-    default_suggestion = {
-        "text": "Take a deep breath and reflect on your feelings.",
-        "video_link": "",
-        "playlist_link": "",
-        "quote": "Every moment is a fresh beginning."
-    }
-    
-    # Randomly select complete suggestion objects from each emotion
-    primary_suggestion = random.choice(SUGGESTIONS.get(primary, [default_suggestion]))
-    secondary_suggestion = random.choice(SUGGESTIONS.get(secondary, [default_suggestion]))
-    
-    # Create a personalized touch based on text length
-    if len(text) > 100:
-        dynamic_part = " Your detailed reflection shows you're processing your emotions well."
-    else:
-        dynamic_part = " Consider expanding on your thoughts to better understand your feelings."
-    
-    # Combine the suggestions and media links
-    response = {
-        "text": f"{primary_suggestion['text']} {secondary_suggestion['text']}{dynamic_part}",
-        "quote": primary_suggestion['quote'],  # Use primary emotion's quote
-        "video_link": primary_suggestion['video_link'],  # Use primary emotion's video
-        "playlist_link": secondary_suggestion['playlist_link']  # Use secondary emotion's playlist
-    }
-    
-    return response
-
 # Route for History Page (View Journal Entries)
 @app.route('/history')
 @login_required
 def history():
-    # Fetch all journal entries for the current user, ordered by most recent first
-    entries = Journal.query.filter_by(user_id=current_user.id).order_by(Journal.date.desc()).all()
-    return render_template('history.html', entries=entries)
+    try:
+        # Get all entries for current user, newest first
+        entries = Journal.query.filter_by(user_id=current_user.id)\
+                             .order_by(Journal.date.desc())\
+                             .all()
+        
+        # Format entries for display
+        formatted_entries = []
+        for entry in entries:
+            formatted_entry = {
+                'id': entry.id,
+                'title': entry.title,
+                'text': entry.text,
+                'reason': entry.reason,
+                'date': entry.date.strftime('%Y-%m-%d %H:%M'),
+                'mood': entry.mood,
+                'primary_emotion': entry.primary_emotion,
+                'primary_emotion_percentage': round(entry.primary_emotion_percentage, 2),
+                'secondary_emotion': entry.secondary_emotion,
+                'secondary_emotion_percentage': round(entry.secondary_emotion_percentage, 2)
+            }
+            formatted_entries.append(formatted_entry)
+        
+        return render_template('history.html', entries=formatted_entries)
+    
+    except Exception as e:
+        flash("Error loading journal entries", "error")
+        return render_template('history.html', entries=[])
 
 # Route for Logout
 @app.route('/logout')
