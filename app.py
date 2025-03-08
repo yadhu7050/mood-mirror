@@ -7,6 +7,8 @@ import os
 import json  # Added import
 import random  # Added import
 from transformers import pipeline  # Added import
+from collections import Counter
+from datetime import timedelta
 
 
 emotion_pipeline = pipeline("text-classification", model="SamLowe/roberta-base-go_emotions", top_k=2)
@@ -454,6 +456,77 @@ def logout():
     logout_user()  # Log the user out
     session.pop('user_id', None)  # Remove the user_id from the session
     return redirect(url_for('home'))  # Redirect to home after logging out
+
+
+@app.route('/analysis')
+@login_required
+def analysis():
+    try:
+        # Get user's journal entries
+        entries = Journal.query.filter_by(user_id=current_user.id).all()
+        
+        # Prepare emotion distribution data
+        emotions = [entry.primary_emotion for entry in entries]
+        emotion_counter = Counter(emotions)
+        emotion_colors = {
+            'joy': '#FFD700',
+            'sadness': '#4169E1',
+            'anger': '#FF4500',
+            'fear': '#800080',
+            'love': '#FF69B4',
+            'surprise': '#00FF7F',
+            'confusion': '#DDA0DD',
+            'excitement': '#FF6347',
+            'gratitude': '#98FB98',
+            'disappointment': '#CD853F'
+        }
+        
+        emotion_data = {
+            'labels': list(emotion_counter.keys()),
+            'values': list(emotion_counter.values()),
+            'colors': [emotion_colors.get(emotion, '#808080') for emotion in emotion_counter.keys()]
+        }
+        
+        # Prepare emotional score timeline
+        score_entries = sorted(entries, key=lambda x: x.date)
+        score_data = {
+            'dates': [entry.date.strftime('%Y-%m-%d') for entry in score_entries],
+            'scores': [current_user.emotional_score for _ in score_entries]
+        }
+        
+        # Prepare reasons distribution
+        reasons = [entry.reason for entry in entries]
+        reasons_counter = Counter(reasons)
+        reason_colors = {
+            'work': '#4CAF50',
+            'relationship': '#FF69B4',
+            'home': '#FFA500',
+            'health': '#4169E1',
+            'other': '#808080'
+        }
+        
+        reasons_data = {
+            'labels': list(reasons_counter.keys()),
+            'values': list(reasons_counter.values()),
+            'colors': [reason_colors.get(reason, '#808080') for reason in reasons_counter.keys()]
+        }
+        
+        # Prepare top emotions data
+        top_emotions = emotion_counter.most_common(5)
+        top_emotions_data = {
+            'labels': [emotion for emotion, _ in top_emotions],
+            'values': [count for _, count in top_emotions]
+        }
+        
+        return render_template('analysis.html',
+                             emotion_data=emotion_data,
+                             score_data=score_data,
+                             reasons_data=reasons_data,
+                             top_emotions_data=top_emotions_data)
+                             
+    except Exception as e:
+        flash("Error generating analysis", "error")
+        return redirect(url_for("journal"))
 
 if __name__ == '__main__':
     with app.app_context():
