@@ -386,6 +386,10 @@ def journal():
                 secondary_emotion = emotion_results[1]['label']
                 secondary_emotion_percentage = emotion_results[1]['score'] * 100
                 
+                # Update user's emotional score based on primary emotion
+                mood_value = MOOD_VALUES.get(primary_emotion, 0)
+                current_user.emotional_score = max(0, min(100, current_user.emotional_score + mood_value))
+                
                 # Create journal entry
                 entry = Journal(
                     user_id=current_user.id,
@@ -400,6 +404,7 @@ def journal():
                     secondary_emotion_percentage=secondary_emotion_percentage
                 )
                 
+                # Save both the journal entry and the updated emotional score
                 db.session.add(entry)
                 db.session.commit()
                 
@@ -463,7 +468,9 @@ def logout():
 def analysis():
     try:
         # Get user's journal entries
-        entries = Journal.query.filter_by(user_id=current_user.id).all()
+        entries = Journal.query.filter_by(user_id=current_user.id)\
+                             .order_by(Journal.date.asc())\
+                             .all()
         
         # Prepare emotion distribution data
         emotions = [entry.primary_emotion for entry in entries]
@@ -487,12 +494,18 @@ def analysis():
             'colors': [emotion_colors.get(emotion, '#808080') for emotion in emotion_counter.keys()]
         }
         
-        # Prepare emotional score timeline
-        score_entries = sorted(entries, key=lambda x: x.date)
-        score_data = {
-            'dates': [entry.date.strftime('%Y-%m-%d') for entry in score_entries],
-            'scores': [current_user.emotional_score for _ in score_entries]
-        }
+        # Calculate emotional score timeline
+        score_data = {'dates': [], 'scores': []}
+        current_score = 50  # Starting score
+        
+        if entries:
+            for entry in entries:
+                # Update score based on entry's primary emotion
+                mood_value = MOOD_VALUES.get(entry.primary_emotion, 0)
+                current_score = max(0, min(100, current_score + mood_value))
+                
+                score_data['dates'].append(entry.date.strftime('%Y-%m-%d'))
+                score_data['scores'].append(current_score)
         
         # Prepare reasons distribution
         reasons = [entry.reason for entry in entries]
@@ -523,7 +536,7 @@ def analysis():
                              score_data=score_data,
                              reasons_data=reasons_data,
                              top_emotions_data=top_emotions_data)
-                             
+    
     except Exception as e:
         flash("Error generating analysis", "error")
         return redirect(url_for("journal"))
