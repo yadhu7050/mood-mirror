@@ -9,21 +9,43 @@ import random  # Added import
 from transformers import pipeline  # Added import
 from collections import Counter
 from datetime import timedelta
+import requests
+
+# Mistral AI API settings
+MISTRAL_API_URL = "https://api.mistral.ai/v1/chat/completions"
+MISTRAL_API_KEY = "ITlOsRgNOwhIga9FKXpVXSs7UJlbbzvi"
+def generate_ai_response(user_input, chat_history):
+    """Send request to Mistral AI API for chatbot response."""
+    prompt = f"User's journal history:\n{chat_history}\n\nUser: {user_input}\nTherapist:"
+    
+    headers = {
+        "Authorization": f"Bearer {MISTRAL_API_KEY}",
+        "Content-Type": "application/json"
+    }
+    
+    payload = {
+        "model": "mistral-medium",  # Change model if needed (e.g., mistral-small, mistral-large)
+        "messages": [
+            {"role": "system", "content": "You are a compassionate AI psychologist helping users reflect on their emotions."},
+            {"role": "user", "content": prompt}
+        ],
+        "temperature": 0.7,
+        "max_tokens": 200
+    }
+    
+    response = requests.post(MISTRAL_API_URL, headers=headers, json=payload)
+    
+    if response.status_code == 200:
+        return response.json()["choices"][0]["message"]["content"]
+    else:
+        return "Sorry, I'm having trouble responding right now."
 
 
 emotion_pipeline = pipeline("text-classification", model="SamLowe/roberta-base-go_emotions", top_k=2)
 
 def get_dynamic_suggestion(primary_emotion, secondary_emotion, text):
-    """Generate a meaningful suggestion with media recommendations from JSON.
+    """Generate a meaningful suggestion with media recommendations from JSON."""
     
-    Args:
-        primary_emotion (str): The main emotion detected
-        secondary_emotion (str): The secondary emotion detected
-        text (str): The journal text input
-    Returns:
-        dict: A dictionary containing suggestion text and media links
-    """
-    # Convert emotions to lowercase for matching
     primary = primary_emotion.lower()
     secondary = secondary_emotion.lower()
     
@@ -172,19 +194,47 @@ def start():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        email = request.form['email']
-        password = request.form['password']
+        email = request.form.get('email')
+        password = request.form.get('password')
+        
+        # Check if email and password are provided
+        if not email or not password:
+            return jsonify({
+                "success": False, 
+                "message": "Please enter both email and password"
+            })
         
         # Find user by email
         user = User.query.filter_by(email=email).first()
         
-        # If the user exists and the password matches, log the user in
-        if user and user.check_password(password):
-            login_user(user)  # Log in the user
-            session['user_id'] = user.id  # Store user ID in session
-            return redirect(url_for('journal'))  # Redirect to journal if login is successful
-        else:
-            flash('Invalid email or password', 'error')  # Flash an error if login fails
+        # Check if user exists
+        if not user:
+            return jsonify({
+                "success": False, 
+                "message": "No account found with this email"
+            })
+        
+        # Check password
+        if not user.check_password(password):
+            return jsonify({
+                "success": False, 
+                "message": "Incorrect password"
+            })
+        
+        # If everything is correct, log in the user
+        try:
+            login_user(user)
+            session['user_id'] = user.id
+            return jsonify({
+                "success": True, 
+                "redirect": url_for('journal')
+            })
+        except Exception as e:
+            print(f"Login error: {str(e)}")
+            return jsonify({
+                "success": False, 
+                "message": "Error during login. Please try again."
+            })
     
     return render_template('login.html')
 
@@ -192,28 +242,47 @@ def login():
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
-        name = request.form['name']
-        email = request.form['email']
-        password = request.form['password']
+        name = request.form.get('name')
+        email = request.form.get('email')
+        password = request.form.get('password')
+        
+        if not name or not email or not password:
+            return jsonify({"success": False, "message": "Please fill in all fields"})
+            
+        if '@' not in email or '.' not in email:
+            return jsonify({"success": False, "message": "Please enter a valid email address"})
+            
+        if len(password) < 6:
+            return jsonify({"success": False, "message": "Password must be at least 6 characters long"})
 
-        # Check if email already exists
         existing_user = User.query.filter_by(email=email).first()
         if existing_user:
-            flash('Email already exists! Logging you in.', 'info')
-            login_user(existing_user)  # Log the user in if they already exist
-            return redirect(url_for('journal'))  # Redirect to journal if user exists
+            return jsonify({"success": False, "message": "An account with this email already exists"})
 
-        # Create a new user with hashed password
-        new_user = User(name=name, email=email)
-        new_user.set_password(password)
-        db.session.add(new_user)
-        db.session.commit()
+        try:
+            new_user = User(name=name, email=email)
+            new_user.set_password(password)
+            db.session.add(new_user)
+            db.session.commit()
 
-        login_user(new_user)  # Log the user in after signing up
-        session['user_id'] = new_user.id  # Store user ID in session
-        return redirect(url_for('signup_quiz'))  # Redirect to quiz after signup
+            login_user(new_user)
+            session['user_id'] = new_user.id
+            return jsonify({"success": True, "redirect": url_for('signup_quiz')})
+            
+        except Exception as e:
+            db.session.rollback()
+            return jsonify({"success": False, "message": "An error occurred during registration"})
 
     return render_template('signup.html')
+
+# Add this to protect against session fixation
+@app.before_request
+def before_request():
+    if current_user.is_authenticated:
+        # Check if session user_id matches current_user.id
+        if session.get('user_id') != current_user.id:
+            logout_user()
+            return redirect(url_for('login'))
 
 # Route for Sign Up Quiz
 @app.route('/signup_quiz', methods=['GET', 'POST'])
@@ -462,6 +531,59 @@ def logout():
     session.pop('user_id', None)  # Remove the user_id from the session
     return redirect(url_for('home'))  # Redirect to home after logging out
 
+@app.route('/chatbot', methods=['GET', 'POST'])
+@login_required
+def chatbot():
+    """Chatbot page that acts as an AI psychologist."""
+    if request.method == 'POST':
+        user_input = request.form['user_input']
+
+        # Fetch user's journal history for context
+        entries = Journal.query.filter_by(user_id=current_user.id).order_by(Journal.date.desc()).limit(3).all()
+        chat_history = "\n".join([f"[{e.date.strftime('%Y-%m-%d')}] {e.text}" for e in entries])
+
+        # Modified prompt to encourage shorter responses
+        prompt = f"""User's recent journal entries for context:
+{chat_history}
+
+User: {user_input}
+
+Instructions: Respond as a compassionate AI therapist in 1-2 short sentences. Be concise but empathetic.
+
+Therapist:"""
+
+        headers = {
+            "Authorization": f"Bearer {MISTRAL_API_KEY}",
+            "Content-Type": "application/json"
+        }
+        
+        payload = {
+            "model": "mistral-medium",
+            "messages": [
+                {"role": "system", "content": "You are a compassionate AI therapist. Keep responses brief and focused, maximum 2 sentences."},
+                {"role": "user", "content": prompt}
+            ],
+            "temperature": 0.7,
+            "max_tokens": 100  # Reduced max tokens for shorter responses
+        }
+
+        try:
+            response = requests.post(MISTRAL_API_URL, headers=headers, json=payload)
+            if response.status_code == 200:
+                ai_response = response.json()["choices"][0]["message"]["content"]
+                # Trim response if it's still too long
+                if len(ai_response) > 150:
+                    ai_response = '. '.join(ai_response.split('.')[:2]) + '.'
+                return jsonify({"response": ai_response})
+            else:
+                return jsonify({"response": "I'm here to listen. How can I help you today?"})
+        except Exception as e:
+            print(f"Chatbot error: {str(e)}")
+            return jsonify({"response": "I'm here to listen. How can I help you today?"})
+
+    return render_template('chatbot.html')
+
+
 
 @app.route('/analysis')
 @login_required
@@ -541,7 +663,14 @@ def analysis():
         flash("Error generating analysis", "error")
         return redirect(url_for("journal"))
 
-if __name__ == '__main__':
+def init_database():
     with app.app_context():
-        db.create_all()  # Create the database tables if they don't exist
+        # Create tables only if they don't exist
+        if not os.path.exists(os.path.join(basedir, "instance", "data.db")):
+            db.create_all()
+            print("Database initialized successfully!")
+
+# Update your main block
+if __name__ == '__main__':
+    init_database()  # Only creates tables if they don't exist
     app.run(debug=True)
