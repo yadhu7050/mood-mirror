@@ -1,4 +1,3 @@
-
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
 
 * {
@@ -258,4 +257,28 @@ footer i {
 footer a {
     color: #3c97bf;
     text-decoration: none;
+}
+
+/* Add these to your existing styles */
+.forgot-link, .back-link {
+    color: #333;
+    text-decoration: none;
+    font-size: 14px;
+    margin: 15px 0;
+    transition: color 0.3s ease;
+}
+
+.forgot-link:hover, .back-link:hover {
+    color: #6a11cb;
+}
+
+#resetForm {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+/* Animation for form switching */
+#loginForm, #resetForm {
+    transition: all 0.3s ease;
 }

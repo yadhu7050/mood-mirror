@@ -10,6 +10,8 @@ from transformers import pipeline  # Added import
 from collections import Counter
 from datetime import timedelta
 import requests
+from itsdangerous import URLSafeTimedSerializer
+from flask_mail import Mail, Message
 
 # Mistral AI API settings
 MISTRAL_API_URL = "https://api.mistral.ai/v1/chat/completions"
@@ -97,6 +99,12 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{os.path.join(basedir, "instance", "data.db")}'
 app.config['SECRET_KEY'] = '1234'  # You can generate a more secure key for production
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = 'moodmirrorsree@gmail.com'  # Replace with your Gmail
+app.config['MAIL_PASSWORD'] = 'A1234_56789a'     # Replace with your Gmail App Password
+app.config['MAIL_DEFAULT_SENDER'] = 'moodmirrorsree@gmail.com'
 
 # Initialize SQLAlchemy and LoginManager
 db = SQLAlchemy(app)
@@ -673,4 +681,109 @@ def init_database():
 # Update your main block
 if __name__ == '__main__':
     init_database()  # Only creates tables if they don't exist
+    mail = Mail(app)
+    serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
     app.run(debug=True)
+
+@app.route('/forgot-password', methods=['POST'])
+def forgot_password():
+    try:
+        data = request.get_json()
+        email = data.get('email')
+        
+        if not email:
+            return jsonify({
+                "success": False,
+                "message": "Please enter your email address"
+            })
+        
+        user = User.query.filter_by(email=email).first()
+        if not user:
+            return jsonify({
+                "success": False,
+                "message": "No account found with this email"
+            })
+        
+        # Generate token
+        token = serializer.dumps(email, salt='password-reset-salt')
+        
+        # Create reset link
+        reset_url = url_for('reset_password', token=token, _external=True)
+        
+        # Send email
+        msg = Message('Password Reset Request',
+                     recipients=[email])
+        msg.body = f'''To reset your password, visit the following link:
+{reset_url}
+
+If you did not make this request, please ignore this email.
+'''
+        mail.send(msg)
+        
+        return jsonify({
+            "success": True,
+            "message": "Password reset instructions sent to your email"
+        })
+        
+    except Exception as e:
+        print(f"Password reset error: {str(e)}")
+        return jsonify({
+            "success": False,
+            "message": "An error occurred. Please try again."
+        })
+
+@app.route('/reset-password/<token>', methods=['GET', 'POST'])
+def reset_password(token):
+    try:
+        email = serializer.loads(token, salt='password-reset-salt', max_age=3600)  # Token expires in 1 hour
+    except:
+        return "The password reset link is invalid or has expired."
+    
+    if request.method == 'POST':
+        try:
+            user = User.query.filter_by(email=email).first()
+            new_password = request.form.get('password')
+            user.set_password(new_password)
+            db.session.commit()
+            return redirect(url_for('login'))
+        except Exception as e:
+            return "An error occurred. Please try again."
+    
+    return render_template('reset_password.html')
+
+@app.route('/reset-password', methods=['POST'])
+def reset_password():
+    try:
+        data = request.get_json()
+        email = data.get('email')
+        new_password = data.get('newPassword')
+        
+        if not email or not new_password:
+            return jsonify({
+                "success": False,
+                "message": "Please fill in all fields"
+            })
+        
+        # Find user by email
+        user = User.query.filter_by(email=email).first()
+        if not user:
+            return jsonify({
+                "success": False,
+                "message": "No account found with this email"
+            })
+        
+        # Update password
+        user.set_password(new_password)
+        db.session.commit()
+        
+        return jsonify({
+            "success": True,
+            "message": "Password reset successful. Please login with your new password."
+        })
+        
+    except Exception as e:
+        print(f"Password reset error: {str(e)}")
+        return jsonify({
+            "success": False,
+            "message": "An error occurred. Please try again."
+        })

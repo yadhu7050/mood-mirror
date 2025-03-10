@@ -23,11 +23,21 @@
 	<div class="form-container sign-in-container">
 		<form id="loginForm">
 			<h1>Sign in</h1>
-			
 			<span>or use your account</span> 
 			<input type="email" name="email" required>
 			<input type="password" name="password" required>
+			<a href="#" class="forgot-link" onclick="toggleForms()">Forgot your password?</a>
 			<button type="submit">Login</button>
+		</form>
+
+		<!-- Reset Password Form -->
+		<form id="resetForm" style="display: none;">
+			<h1>Reset Password</h1>
+			<span>Reset your password</span>
+			<input type="email" name="email" placeholder="Email" required>
+			<input type="password" name="newPassword" placeholder="New Password" required>
+			<button type="submit">Reset Password</button>
+			<a href="#" class="back-link" onclick="toggleForms()">Back to Login</a>
 		</form>
 	</div>
 	<div class="overlay-container">
@@ -50,5 +60,68 @@
 	
 </footer>
 <script src="/static/login.js"></script>
+<script>
+	// Existing login form handler
+	document.getElementById('loginForm').addEventListener('submit', async (e) => {
+		e.preventDefault();
+		const formData = new FormData(e.target);
+		
+		try {
+			const response = await fetch('/login', {
+				method: 'POST',
+				body: formData
+			});
+			
+			const data = await response.json();
+			if (data.success) {
+				window.location.href = data.redirect;
+			} else {
+				alert(data.message);
+			}
+		} catch (error) {
+			alert('An error occurred. Please try again.');
+		}
+	});
+
+	function toggleForms() {
+		const loginForm = document.getElementById('loginForm');
+		const resetForm = document.getElementById('resetForm');
+		
+		if (loginForm.style.display === 'none') {
+			loginForm.style.display = 'flex';
+			resetForm.style.display = 'none';
+		} else {
+			loginForm.style.display = 'none';
+			resetForm.style.display = 'flex';
+		}
+	}
+
+	// Add reset password form handler
+	document.getElementById('resetForm').addEventListener('submit', async (e) => {
+		e.preventDefault();
+		const formData = new FormData(e.target);
+		
+		try {
+			const response = await fetch('/reset-password', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					email: formData.get('email'),
+					newPassword: formData.get('newPassword')
+				})
+			});
+			
+			const data = await response.json();
+			alert(data.message);
+			if (data.success) {
+				toggleForms(); // Switch back to login form
+			}
+		} catch (error) {
+			alert('An error occurred. Please try again.');
+		}
+	});
+</script>
 </body>
 </html>
