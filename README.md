@@ -17,6 +17,8 @@ MoodMirror is an AI-powered journaling application that helps users understand a
 - **🎵 Media Integration**: Curated Spotify playlists and YouTube videos for emotional support
 - **📊 Emotional Score Tracking**: Initial quiz to establish baseline emotional state
 - **🎨 Modern UI**: Responsive design with glassmorphism effects and smooth animations
+- **🧠 AI Therapist Chat**: Interactive chatbot powered by Mistral AI for emotional support
+- **📈 Advanced Analytics**: Detailed emotional trends and patterns visualization
 
 ## 🚀 Getting Started
 
@@ -118,6 +120,10 @@ class Journal(db.Model):
     reason = db.Column(db.String(100))
     date = db.Column(db.DateTime, default=datetime.utcnow)
     mood = db.Column(db.String(50))
+    primary_emotion = db.Column(db.String(50))
+    primary_emotion_percentage = db.Column(db.Float)
+    secondary_emotion = db.Column(db.String(50))
+    secondary_emotion_percentage = db.Column(db.Float)
 ```
 
 ## 🔄 Routes
@@ -126,12 +132,14 @@ class Journal(db.Model):
 |--------|--------------|-------------------------------------|----------------------|
 | GET    | /            | Home page                           | No                   |
 | GET    | /start       | Login page                          | No                   |
-| POST   | /login       | User login                          | Yes                   |
-| POST   | /signup      | User registration                   | Yes                   |
+| POST   | /login       | User login                          | Yes                  |
+| POST   | /signup      | User registration                   | Yes                  |
 | GET/POST| /signup_quiz | Emotional baseline quiz             | Yes                  |
 | GET/POST| /journal     | Journal entry creation              | Yes                  |
 | GET    | /history     | View past journal entries           | Yes                  |
 | GET    | /logout      | User logout                         | Yes                  |
+| GET/POST| /chatbot    | AI Therapist interaction            | Yes                  |
+| GET    | /analysis    | View emotional analytics dashboard  | Yes                  |
 
 ## 🎨 Features in Detail
 
@@ -154,6 +162,19 @@ class Journal(db.Model):
 - Provides emotion confidence percentages
 - Generates contextual suggestions
 
+### AI Therapist Chat
+- Powered by Mistral AI's language model
+- Context-aware responses based on journal history
+- Empathetic and supportive interactions
+- Concise, focused therapeutic guidance
+
+### Analytics Dashboard
+- Emotion distribution visualization
+- Emotional score timeline tracking
+- Reason-based journal categorization
+- Top emotions analysis
+- Interactive charts and graphs
+
 ### UI Features
 - Responsive design for all devices
 - Interactive animations
@@ -170,6 +191,7 @@ Flask-Login==0.5.0
 Werkzeug==2.0.1
 transformers==4.11.3
 torch==1.9.0
+requests==2.31.0  # For Mistral AI API integration
 ```
 
 ## 🤝 Contributing
