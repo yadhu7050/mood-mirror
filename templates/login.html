@@ -33,7 +33,7 @@
 		<!-- Reset Password Form -->
 		<form id="resetForm" style="display: none;">
 			<h1>Reset Password</h1>
-			<span>Reset your password</span>
+			<span>Enter your details</span>
 			<input type="email" name="email" placeholder="Email" required>
 			<input type="password" name="newPassword" placeholder="New Password" required>
 			<button type="submit">Reset Password</button>
@@ -97,31 +97,37 @@
 	}
 
 	// Add reset password form handler
-	document.getElementById('resetForm').addEventListener('submit', async (e) => {
-		e.preventDefault();
-		const formData = new FormData(e.target);
-		
-		try {
-			const response = await fetch('/reset-password', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({
-					email: formData.get('email'),
-					newPassword: formData.get('newPassword')
-				})
-			});
-			
-			const data = await response.json();
-			alert(data.message);
-			if (data.success) {
-				toggleForms(); // Switch back to login form
-			}
-		} catch (error) {
-			alert('An error occurred. Please try again.');
-		}
-	});
+	// Add this to your login.html script section
+document.getElementById('resetForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = e.target.email.value;
+    const newPassword = e.target.newPassword.value;
+    
+    try {
+        const response = await fetch('/reset-password', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                email: email,
+                newPassword: newPassword
+            })
+        });
+        
+        const data = await response.json();
+        alert(data.message);
+        
+        if (data.success) {
+            // Clear form and switch back to login
+            e.target.reset();
+            toggleForms();
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred. Please try again.');
+    }
+});
 </script>
 </body>
 </html>

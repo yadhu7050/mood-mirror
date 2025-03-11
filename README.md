@@ -1,24 +1,24 @@
 # 🌙 MoodMirror - AI-Powered Emotional Journal
 
 <div align="center">
-  <img src="https://miro.medium.com/v2/resize:fit:1200/0*oWRpwhaPxCJR-tGU.png" alt="MoodMirror Banner" width="600"/>
+  <img src="/static/logo1.png" alt="MoodMirror Banner" width="600"/>
 </div>
 
 ## 📖 About
 
 This is our MINIPROJECT for 6th semester.
-MoodMirror is an AI-powered journaling application that helps users understand and track their emotions. Using the RoBERTa model for emotion detection, it analyzes journal entries in real-time, providing emotional insights and personalized suggestions including music and video recommendations.
+MoodMirror is an AI-powered journaling application that helps users understand and track their emotions. Using the RoBERTa model for emotion detection and Mistral AI for chatbot interactions, it provides comprehensive emotional analysis and support.
 
 ## ✨ Features
 
 - **🤖 AI Emotion Analysis**: Real-time emotion detection using RoBERTa-base-Go-Emotions model
 - **📝 Smart Journaling**: Categorized journal entries with emotion tracking
-- **💡 Personalized Suggestions**: Get custom recommendations based on detected emotions
-- **🎵 Media Integration**: Curated Spotify playlists and YouTube videos for emotional support
-- **📊 Emotional Score Tracking**: Initial quiz to establish baseline emotional state
-- **🎨 Modern UI**: Responsive design with glassmorphism effects and smooth animations
-- **🧠 AI Therapist Chat**: Interactive chatbot powered by Mistral AI for emotional support
-- **📈 Advanced Analytics**: Detailed emotional trends and patterns visualization
+- **💡 Personalized Suggestions**: Dynamic suggestions based on primary and secondary emotions
+- **🎵 Media Integration**: Curated playlists and videos based on emotional state
+- **📊 Visual Analytics**: Comprehensive charts showing emotion distribution and patterns
+- **🤖 AI Therapist**: Mistral AI-powered chatbot for emotional support
+- **📈 Score Tracking**: Dynamic emotional score system based on journal entries
+- **🎨 Modern UI**: Responsive design with fixed navigation and full-screen sections
 
 ## 🚀 Getting Started
 
@@ -27,7 +27,7 @@ MoodMirror is an AI-powered journaling application that helps users understand a
 - Python 3.8+
 - pip package manager
 - SQLite3
-- Modern web browser
+- Mistral AI API key
 
 ### Installation
 
@@ -97,6 +97,12 @@ python app.py
 7. **Access the application**
 Open your browser and navigate to `http://localhost:5000`
 
+### Environment Variables Required
+
+```bash
+MISTRAL_API_KEY=your_api_key_here
+```
+
 ## 💾 Database Schema
 
 ### User Model
@@ -128,59 +134,45 @@ class Journal(db.Model):
 
 ## 🔄 Routes
 
-| Method | Route         | Description                         | Authentication Required |
-|--------|--------------|-------------------------------------|----------------------|
-| GET    | /            | Home page                           | No                   |
-| GET    | /start       | Login page                          | No                   |
-| POST   | /login       | User login                          | Yes                  |
-| POST   | /signup      | User registration                   | Yes                  |
-| GET/POST| /signup_quiz | Emotional baseline quiz             | Yes                  |
-| GET/POST| /journal     | Journal entry creation              | Yes                  |
-| GET    | /history     | View past journal entries           | Yes                  |
-| GET    | /logout      | User logout                         | Yes                  |
-| GET/POST| /chatbot    | AI Therapist interaction            | Yes                  |
-| GET    | /analysis    | View emotional analytics dashboard  | Yes                  |
+| Method | Route | Description | Authentication Required |
+|--------|-------|-------------|----------------------|
+| GET/POST | / | Home page | No |
+| GET/POST | /login | User login | No |
+| GET/POST | /signup | User registration | No |
+| GET/POST | /signup_quiz | Initial emotional assessment | Yes |
+| GET/POST | /journal | Create and analyze journal entries | Yes |
+| GET | /history | View journal history | Yes |
+| GET | /analysis | View emotional analytics | Yes |
+| GET/POST | /chatbot | AI Therapist interaction | Yes |
+| GET | /logout | User logout | Yes |
+| POST | /reset-password | Password reset functionality | No |
 
 ## 🎨 Features in Detail
 
-### Authentication System
-- User registration with email and password
-- Secure password hashing using Werkzeug
-- Session management with Flask-Login
-- Custom signup quiz for emotional baseline
+### Emotion Analysis System
+- Primary and secondary emotion detection
+- Percentage-based emotion confidence scores
+- Dynamic suggestion generation based on emotional context
+- Integration with media recommendations
 
-### Journal System
-- Rich text entry support
-- Category selection (Work, Relationship, Home, Health, Other)
-- Real-time emotion analysis
-- Personalized suggestions based on emotions
-- Media recommendations (Spotify & YouTube)
-
-### Emotion Analysis
-- Uses RoBERTa model for accurate emotion detection
-- Detects primary and secondary emotions
-- Provides emotion confidence percentages
-- Generates contextual suggestions
-
-### AI Therapist Chat
-- Powered by Mistral AI's language model
-- Context-aware responses based on journal history
-- Empathetic and supportive interactions
-- Concise, focused therapeutic guidance
+### AI Chatbot Integration
+- Powered by Mistral AI API
+- Context-aware responses using journal history
+- Focused on emotional support and guidance
+- Configurable response parameters
 
 ### Analytics Dashboard
-- Emotion distribution visualization
-- Emotional score timeline tracking
-- Reason-based journal categorization
-- Top emotions analysis
-- Interactive charts and graphs
+- Emotion distribution pie chart
+- Emotional score timeline
+- Reasons distribution doughnut chart
+- Most common emotions bar chart
+- Interactive and responsive visualizations
 
-### UI Features
-- Responsive design for all devices
-- Interactive animations
-- Modern glassmorphism effects
-- Dynamic form transitions
-- Real-time feedback
+### Security Features
+- Secure password hashing
+- Session management
+- Password reset functionality
+- Protected routes with login_required
 
 ## 📦 Dependencies
 
@@ -188,10 +180,11 @@ class Journal(db.Model):
 Flask==2.0.1
 Flask-SQLAlchemy==2.5.1
 Flask-Login==0.5.0
+Flask-Mail==0.9.1
 Werkzeug==2.0.1
 transformers==4.11.3
-torch==1.9.0
-requests==2.31.0  # For Mistral AI API integration
+requests==2.31.0
+itsdangerous==2.0.1
 ```
 
 ## 🤝 Contributing
@@ -212,13 +205,14 @@ Report bugs by opening a new issue. Include:
 
 ## 🚀 Future Enhancements
 
-- [ ] Export functionality for journal entries
-- [ ] Advanced analytics dashboard
-- [ ] Mobile application
-- [ ] Multiple language support
+- [ ] Enhanced email notification system
+- [ ] Multiple language support for emotion analysis
+- [ ] Advanced chatbot conversation memory
 - [ ] Custom suggestion templates
-- [ ] API integration options
-
+- [ ] Mobile application
+- [ ] User preference settings
+- [ ] Journal entry search and filtering
+- [ ] Export functionality for analytics
 
 ## 👥 Authors
 
@@ -226,7 +220,6 @@ Report bugs by opening a new issue. Include:
 - **Dhanalakshmi K B** - [Dhanalakshmi-lab-stack](https://github.com/Dhanalakshmi-lab-stack)
 - **Sidharth P Krishnan** - [Sidharthpkrishnan](https://github.com/Sidharthpkrishnan)
 - **Sreelakshmi A V** - [sreelxmi](https://github.com/sreelxmi)
-
 
 ## 🙏 Acknowledgments
 
@@ -245,9 +238,9 @@ Project Link: [https://github.com/yadhu7050/mood-mirror](https://github.com/yadh
 ---
 
 <div align="center">
-  Made with ❤️ by
-  Yadhu Krishnan V A
-  Sidharth P Krishnan
-  Sreelakshmi A V
+  Made with ❤️ by<br>
+  Yadhu Krishnan V A<br>
+  Sidharth P Krishnan<br>
+  Sreelakshmi A V<br>
   Dhanalakshmi K B
 </div>

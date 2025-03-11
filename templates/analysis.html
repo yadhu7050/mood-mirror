@@ -6,122 +6,237 @@
     <title>MoodMirror Analysis</title>
     <link rel="stylesheet" href="/static/styles.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Add Chart.js plugins for animations and gradients -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
 </head>
 <body>
-    <div class="nav-links">
-        <a href="/">Home</a>
-        <a href="/journal">New Entry</a>
-        <a href="/history">History</a>
-        <a href="/">Home</a>
-        <a href="/chatbot">Chatbot</a>
-        <a href="/logout">Logout</a>
-    </div>
-    <h1 class="main-head">Your Emotional Journey</h1>
-
-    <div class="charts-container">
-        <div class="chart-card">
-            <h2>Emotion Distribution</h2>
-            <canvas id="emotionPieChart"></canvas>
+    <div class="navbar">
+        <div class="logo-container">
+            <img src="/static/logo2.png" alt="MoodMirror Logo" class="logo-image">
+            <div class="logo">MoodMirror</div>
         </div>
-        
-        <div class="chart-card">
-            <h2>Emotional Score Timeline</h2>
-            <canvas id="scoreLineChart"></canvas>
-        </div>
-        
-        <div class="chart-card">
-            <h2>Reasons Distribution</h2>
-            <canvas id="reasonsPieChart"></canvas>
-        </div>
-
-        <div class="chart-card">
-            <h2>Most Common Emotions</h2>
-            <canvas id="topEmotionsChart"></canvas>
+        <div>
+            <a href="/">Home🏠</a>
+            <a href="/journal">New Entry📕</a>
+            <a href="/history">History📖</a>
+            <a href="/analysis">Analysis📊</a>
+            <a href="/chatbot">Chatbot🤖</a>
+            <a href="/logout">Logout⏻</a>
         </div>
     </div>
+    <div class="content-wrapper">
+        <h1 class="main-head">Your Emotional Journey</h1>
 
-    <script>
-        // Get the data passed from Flask
-        const emotionData = JSON.parse('{{ emotion_data | tojson | safe }}');
-        const scoreData = JSON.parse('{{ score_data | tojson | safe }}');
-        const reasonsData = JSON.parse('{{ reasons_data | tojson | safe }}');
-        const topEmotionsData = JSON.parse('{{ top_emotions_data | tojson | safe }}');
+        <div class="charts-container">
+            <div class="chart-card">
+                <h2>Emotion Distribution</h2>
+                <canvas id="emotionPieChart"></canvas>
+            </div>
+            
+            <div class="chart-card">
+                <h2>Emotional Score Timeline</h2>
+                <canvas id="scoreLineChart"></canvas>
+            </div>
+            
+            <div class="chart-card">
+                <h2>Reasons Distribution</h2>
+                <canvas id="reasonsPieChart"></canvas>
+            </div>
 
-        // Emotion Distribution Pie Chart
-        new Chart(document.getElementById('emotionPieChart'), {
-            type: 'pie',
-            data: {
-                labels: emotionData.labels,
-                datasets: [{
-                    data: emotionData.values,
-                    backgroundColor: emotionData.colors
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'right',
+            <div class="chart-card">
+                <h2>Most Common Emotions</h2>
+                <canvas id="topEmotionsChart"></canvas>
+            </div>
+        </div>
+
+        <script>
+            // Get the data passed from Flask
+            const emotionData = JSON.parse('{{ emotion_data | tojson | safe }}');
+            const scoreData = JSON.parse('{{ score_data | tojson | safe }}');
+            const reasonsData = JSON.parse('{{ reasons_data | tojson | safe }}');
+            const topEmotionsData = JSON.parse('{{ top_emotions_data | tojson | safe }}');
+
+            // Enhanced color palette
+            const colorPalette = [
+                'rgba(255, 99, 132, 0.8)',
+                'rgba(54, 162, 235, 0.8)',
+                'rgba(255, 206, 86, 0.8)',
+                'rgba(75, 192, 192, 0.8)',
+                'rgba(153, 102, 255, 0.8)',
+                'rgba(255, 159, 64, 0.8)',
+                'rgba(255, 99, 255, 0.8)',
+                'rgba(75, 192, 255, 0.8)'
+            ];
+
+            // Emotion Distribution Pie Chart
+            new Chart(document.getElementById('emotionPieChart'), {
+                type: 'pie',
+                data: {
+                    labels: emotionData.labels,
+                    datasets: [{
+                        data: emotionData.values,
+                        backgroundColor: colorPalette,
+                        borderWidth: 2,
+                        borderColor: 'rgba(255, 255, 255, 0.8)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                color: '#fff',
+                                font: {
+                                    size: 12
+                                }
+                            }
+                        }
+                    },
+                    animation: {
+                        animateScale: true,
+                        animateRotate: true
                     }
                 }
-            }
-        });
+            });
 
-        // Emotional Score Timeline
-        new Chart(document.getElementById('scoreLineChart'), {
-            type: 'line',
-            data: {
-                labels: scoreData.dates,
-                datasets: [{
-                    label: 'Emotional Score',
-                    data: scoreData.scores,
-                    borderColor: 'rgb(75, 192, 192)',
-                    tension: 0.1
-                }]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        max: 100
+            // Emotional Score Timeline
+            const ctx = document.getElementById('scoreLineChart').getContext('2d');
+            const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+            gradient.addColorStop(0, 'rgba(75, 192, 192, 0.8)');
+            gradient.addColorStop(1, 'rgba(75, 192, 192, 0.1)');
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: scoreData.dates,
+                    datasets: [{
+                        label: 'Emotional Score',
+                        data: scoreData.scores,
+                        borderColor: 'rgb(75, 192, 192)',
+                        backgroundColor: gradient,
+                        tension: 0.4,
+                        fill: true,
+                        pointBackgroundColor: 'white',
+                        pointBorderColor: 'rgb(75, 192, 192)',
+                        pointRadius: 4,
+                        pointHoverRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: '#fff'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: '#fff'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#fff'
+                            }
+                        }
                     }
                 }
-            }
-        });
+            });
 
-        // Reasons Distribution
-        new Chart(document.getElementById('reasonsPieChart'), {
-            type: 'doughnut',
-            data: {
-                labels: reasonsData.labels,
-                datasets: [{
-                    data: reasonsData.values,
-                    backgroundColor: reasonsData.colors
-                }]
-            }
-        });
+            // Reasons Distribution
+            new Chart(document.getElementById('reasonsPieChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: reasonsData.labels,
+                    datasets: [{
+                        data: reasonsData.values,
+                        backgroundColor: colorPalette,
+                        borderWidth: 2,
+                        borderColor: 'rgba(255, 255, 255, 0.8)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                color: '#fff',
+                                font: {
+                                    size: 12
+                                }
+                            }
+                        }
+                    },
+                    animation: {
+                        animateScale: true,
+                        animateRotate: true
+                    },
+                    cutout: '70%'
+                }
+            });
 
-        // Top Emotions Bar Chart
-        new Chart(document.getElementById('topEmotionsChart'), {
-            type: 'bar',
-            data: {
-                labels: topEmotionsData.labels,
-                datasets: [{
-                    label: 'Frequency',
-                    data: topEmotionsData.values,
-                    backgroundColor: 'rgba(75, 192, 192, 0.6)'
-                }]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    y: {
-                        beginAtZero: true
+            // Top Emotions Bar Chart
+            new Chart(document.getElementById('topEmotionsChart'), {
+                type: 'bar',
+                data: {
+                    labels: topEmotionsData.labels,
+                    datasets: [{
+                        label: 'Frequency',
+                        data: topEmotionsData.values,
+                        backgroundColor: colorPalette,
+                        borderWidth: 2,
+                        borderColor: 'rgba(255, 255, 255, 0.8)',
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: '#fff'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: '#fff'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#fff'
+                            }
+                        }
+                    },
+                    animation: {
+                        duration: 2000,
+                        easing: 'easeInOutQuart'
                     }
                 }
-            }
-        });
-    </script>
+            });
+        </script>
+    </div>
 </body>
 </html>

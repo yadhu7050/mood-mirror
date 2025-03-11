@@ -7,52 +7,60 @@
     <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
-    <div class="nav-links">
-        <a href="/">Home</a>
-        <a href="/">Home</a>
-        <a href="/history">History</a>
-        <a href="/analysis">Analysis</a>
-        <a href="/chatbot">Chatbot</a>
-        <a href="/logout">Logout</a>
+    <div class="navbar">
+        <div class="logo-container">
+            <img src="/static/logo2.png" alt="MoodMirror Logo" class="logo-image">
+            <div class="logo">MoodMirror</div>
+        </div>
+        <div>
+            <a href="/">Home🏠</a>
+            <a href="/journal">New Entry📕</a>
+            <a href="/history">History📖</a>
+            <a href="/analysis">Analysis📊</a>
+            <a href="/chatbot">Chatbot🤖</a>
+            <a href="/logout">Logout⏻</a>
+        </div>
     </div>
-    <h1 class="main-head">MoodMirror Journal</h1>
-    
-    <!-- Journal Entry Form -->
-    <form id="journalForm" action="/journal" method="POST">
-        <label class="title-label">Title:</label><br>
-        <input class="input-box1" type="text" name="title" required><br><br>
+    <div class="content-wrapper">
+        <h1 class="main-head">MoodMirror Journal</h1>
+        
+        <!-- Journal Entry Form -->
+        <form id="journalForm" action="/journal" method="POST">
+            <label class="title-label">Title:</label><br>
+            <input class="input-box1" type="text" name="title" required><br><br>
 
-        <label class="reason-label">Reason:</label><br>
-        <input type="hidden" name="reason" id="selected-reason" value="" required>
-        <span class="container">
-            <button type="button" class="clicking" onclick="selectReason('work')">Work</button>
-            <button type="button" class="clicking" onclick="selectReason('relationship')">Relationship</button>
-            <button type="button" class="clicking" onclick="selectReason('home')">Home</button>
-            <button type="button" class="clicking" onclick="selectReason('health')">Health</button>
-            <button type="button" class="clicking" onclick="selectReason('other')">Other</button>
-        </span><br>
+            <label class="reason-label">Reason:</label><br>
+            <input type="hidden" name="reason" id="selected-reason" value="" required>
+            <span class="container">
+                <button type="button" class="clicking" onclick="selectReason('work')">Work</button>
+                <button type="button" class="clicking" onclick="selectReason('relationship')">Relationship</button>
+                <button type="button" class="clicking" onclick="selectReason('home')">Home</button>
+                <button type="button" class="clicking" onclick="selectReason('health')">Health</button>
+                <button type="button" class="clicking" onclick="selectReason('other')">Other</button>
+            </span><br>
 
-        <label class="journalentry-head">Journal Entry:</label><br>
-        <textarea name="journal_text" id="journal_text" rows="5" required></textarea><br>
+            <label class="journalentry-head">Journal Entry:</label><br>
+            <textarea name="journal_text" id="journal_text" rows="5" required></textarea><br>
 
-        <div id="analysis-results" style="display: none;">
-            <div class="emotions-analysis">
-                <p>Primary Emotion: <span id="primary-emotion"></span> (<span id="primary-percentage"></span>%)</p>
-                <p>Secondary Emotion: <span id="secondary-emotion"></span> (<span id="secondary-percentage"></span>%)</p>
-            </div>
-            <div class="suggestion">
-                <p id="suggestion-text"></p>
-                <blockquote id="quote-text"></blockquote>
-                <div class="media-links">
-                    <a id="video-link" href="" target="_blank">Watch a helpful video</a>
-                    <a id="playlist-link" href="" target="_blank">Listen to a curated playlist</a>
+            <div id="analysis-results" style="display: none;">
+                <div class="emotions-analysis">
+                    <p>Primary Emotion: <span id="primary-emotion"></span> (<span id="primary-percentage"></span>%)</p>
+                    <p>Secondary Emotion: <span id="secondary-emotion"></span> (<span id="secondary-percentage"></span>%)</p>
+                </div>
+                <div class="suggestion">
+                    <p id="suggestion-text"></p>
+                    <blockquote id="quote-text"></blockquote>
+                    <div class="media-links">
+                        <a id="video-link" href="" target="_blank">Watch a helpful video</a>
+                        <a id="playlist-link" href="" target="_blank">Listen to a curated playlist</a>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <button type="button" onclick="analyzeEntry()" class="analyze-btn">Analyze Entry</button>
-        <button type="submit" id="save-button" style="display: none;">Save to Journal</button>
-    </form>
+            <button type="button" onclick="analyzeEntry()" class="analyze-btn">Analyze Entry</button>
+            <button type="submit" id="save-button" style="display: none;">Save to Journal</button>
+        </form>
+    </div>
 
     <script>
     function selectReason(reason) {

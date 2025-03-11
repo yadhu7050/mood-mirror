@@ -685,72 +685,6 @@ if __name__ == '__main__':
     serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
     app.run(debug=True)
 
-@app.route('/forgot-password', methods=['POST'])
-def forgot_password():
-    try:
-        data = request.get_json()
-        email = data.get('email')
-        
-        if not email:
-            return jsonify({
-                "success": False,
-                "message": "Please enter your email address"
-            })
-        
-        user = User.query.filter_by(email=email).first()
-        if not user:
-            return jsonify({
-                "success": False,
-                "message": "No account found with this email"
-            })
-        
-        # Generate token
-        token = serializer.dumps(email, salt='password-reset-salt')
-        
-        # Create reset link
-        reset_url = url_for('reset_password', token=token, _external=True)
-        
-        # Send email
-        msg = Message('Password Reset Request',
-                     recipients=[email])
-        msg.body = f'''To reset your password, visit the following link:
-{reset_url}
-
-If you did not make this request, please ignore this email.
-'''
-        mail.send(msg)
-        
-        return jsonify({
-            "success": True,
-            "message": "Password reset instructions sent to your email"
-        })
-        
-    except Exception as e:
-        print(f"Password reset error: {str(e)}")
-        return jsonify({
-            "success": False,
-            "message": "An error occurred. Please try again."
-        })
-
-@app.route('/reset-password/<token>', methods=['GET', 'POST'])
-def reset_password(token):
-    try:
-        email = serializer.loads(token, salt='password-reset-salt', max_age=3600)  # Token expires in 1 hour
-    except:
-        return "The password reset link is invalid or has expired."
-    
-    if request.method == 'POST':
-        try:
-            user = User.query.filter_by(email=email).first()
-            new_password = request.form.get('password')
-            user.set_password(new_password)
-            db.session.commit()
-            return redirect(url_for('login'))
-        except Exception as e:
-            return "An error occurred. Please try again."
-    
-    return render_template('reset_password.html')
-
 @app.route('/reset-password', methods=['POST'])
 def reset_password():
     try:
@@ -762,6 +696,12 @@ def reset_password():
             return jsonify({
                 "success": False,
                 "message": "Please fill in all fields"
+            })
+        
+        if len(new_password) < 6:
+            return jsonify({
+                "success": False,
+                "message": "Password must be at least 6 characters long"
             })
         
         # Find user by email

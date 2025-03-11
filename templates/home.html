@@ -8,12 +8,13 @@
 <body>
     </div>
     <div class="navbar">
-        <div class="logo">MoodMirror</div>
+        <div class="logo-container">
+            <img src="/static/logo2.png" alt="MoodMirror Logo" class="logo-image">
+            <div class="logo">MoodMirror</div>
+        </div>
         <div>
-            <a href="/journal">New Entry📕</a>
-            <a href="/history">History📖</a>
-            <a href="/analysis">Analysis📊</a>
-            <a href="/chatbot">Chatbot🤖</a>
+            <a href="/">Home🏠</a>
+            <a href="/logout">Logout⏻</a>
         </div>
     </div>
     <div class="header">
@@ -25,21 +26,21 @@
         </div>
     </div>
     <div class="features">
-        <div class="feature">
-            <h3>Journal📕</h3>
-            <p>Express your thoughts and feelings in a safe, private space.</p>
+        <div class="feature" onclick="window.location.href='/journal'">
+            <h3>New Entry📕</h3>
+            <p>Write and analyze your daily emotions in a safe, private space.</p>
         </div>
-        <div class="feature">
-            <h3>Insights💡</h3>
-            <p>Gain visual insights into your mood patterns over time.</p>
+        <div class="feature" onclick="window.location.href='/history'">
+            <h3>History📖</h3>
+            <p>Review your past journal entries and emotional journey.</p>
         </div>
-        <div class="feature">
-            <h3>Calendar📅</h3>
-            <p>Track and review your emotional journey day by day.</p>
+        <div class="feature" onclick="window.location.href='/analysis'">
+            <h3>Analysis📊</h3>
+            <p>Visualize your emotional patterns and track your progress.</p>
         </div>
-        <div class="feature">
-            <h3>Reminders🔔</h3>
-            <p>Set up customized reminders to journal regularly.</p>
+        <div class="feature" onclick="window.location.href='/chatbot'">
+            <h3>Chatbot🤖</h3>
+            <p>Get instant support from our AI Therapist anytime.</p>
         </div>
     </div>
 </body>

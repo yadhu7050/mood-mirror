@@ -1,7 +1,7 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
-    padding: 40px;
+    padding: 0;
     background-image: url(/static/solid-navy-blue-concrete-textured-wall.jpg);
     background-size: cover;
     background-attachment: fixed;
@@ -56,23 +56,37 @@ button:hover {
     animation: pulse 1s infinite;
 }
 
-.nav-links {
-    margin: 20px 0;
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.nav-links a {
-    color: #3498db;
+.navbar a {
+    color: #ffffff;
     text-decoration: none;
     margin: 0 15px;
-    padding: 8px 15px;
-    border-radius: 20px;
-    transition: all 0.3s ease;
+    font-size: 16px;
+    transition: color 0.3s ease;
 }
 
-.nav-links a:hover {
-    background-color: #3498db;
-    color: white;
-    transform: translateY(-2px);
+.navbar a:hover {
+    color: #7f00ff;
+}
+
+.navbar .logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ffffff;
 }
 
 .entries-container {
@@ -337,8 +351,9 @@ button:hover {
 .charts-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-    gap: 20px;
+    gap: 25px;
     padding: 20px;
+    margin-top: 20px;
 }
 
 .chart-card {
@@ -347,12 +362,21 @@ button:hover {
     border-radius: 15px;
     padding: 20px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.chart-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
 }
 
 .chart-card h2 {
     color: #fff;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     text-align: center;
+    font-size: 1.4em;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 canvas {
@@ -480,3 +504,28 @@ canvas {
 .chat-messages::-webkit-scrollbar-thumb:hover {
     background: rgba(255, 255, 255, 0.3);
 }
+
+/* Add this new class for content padding */
+.content-wrapper {
+    padding: 80px 40px 40px 40px; /* Top padding to account for fixed navbar */
+}
+/* Add these new styles */
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo-image {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
+
+/* Update existing logo style */
+.navbar .logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ffffff;
+}
+

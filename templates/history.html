@@ -7,42 +7,49 @@
     <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
-    <div class="nav-links">
-        <a href="/">Home</a>
-        <a href="/journal">New Entry</a>
-        <a href="/chatbot">History</a>
-        <a href="/analysis">Analysis</a>
-        <a href="/logout">Logout</a>
-        <a
+    <div class="navbar">
+        <div class="logo-container">
+            <img src="/static/logo2.png" alt="MoodMirror Logo" class="logo-image">
+            <div class="logo">MoodMirror</div>
+        </div>
+        <div>
+            <a href="/">Home🏠</a>
+            <a href="/journal">New Entry📕</a>
+            <a href="/history">History📖</a>
+            <a href="/analysis">Analysis📊</a>
+            <a href="/chatbot">Chatbot🤖</a>
+            <a href="/logout">Logout⏻</a>
+        </div>
     </div>
-    
-    <h1>Your Journal History</h1>
-    
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            {% for message in messages %}
-                <div class="flash-message">{{ message }}</div>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
-    
-    <div class="entries-container">
-        {% if entries %}
-            {% for entry in entries %}
-                <div class="entry-card">
-                    <h2>{{ entry.title }}</h2>
-                    <p class="entry-date">{{ entry.date }}</p>
-                    <p class="entry-reason">Reason: {{ entry.reason }}</p>
-                    <p class="entry-text">{{ entry.text }}</p>
-                    <div class="emotions">
-                        <p>Primary Emotion: {{ entry.primary_emotion }} ({{ entry.primary_emotion_percentage }}%)</p>
-                        <p>Secondary Emotion: {{ entry.secondary_emotion }} ({{ entry.secondary_emotion_percentage }}%)</p>
+    <div class="content-wrapper">
+        <h1>Your Journal History</h1>
+        
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="flash-message">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        <div class="entries-container">
+            {% if entries %}
+                {% for entry in entries %}
+                    <div class="entry-card">
+                        <h2>{{ entry.title }}</h2>
+                        <p class="entry-date">{{ entry.date }}</p>
+                        <p class="entry-reason">Reason: {{ entry.reason }}</p>
+                        <p class="entry-text">{{ entry.text }}</p>
+                        <div class="emotions">
+                            <p>Primary Emotion: {{ entry.primary_emotion }} ({{ entry.primary_emotion_percentage }}%)</p>
+                            <p>Secondary Emotion: {{ entry.secondary_emotion }} ({{ entry.secondary_emotion_percentage }}%)</p>
+                        </div>
                     </div>
-                </div>
-            {% endfor %}
-        {% else %}
-            <p class="no-entries">No journal entries yet. Start writing!</p>
-        {% endif %}
+                {% endfor %}
+            {% else %}
+                <p class="no-entries">No journal entries yet. Start writing!</p>
+            {% endif %}
+        </div>
     </div>
 </body>
 </html>

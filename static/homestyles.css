@@ -1,7 +1,7 @@
 body {
     margin: 0;
     font-family: 'Roboto', sans-serif;
-    background-image: url('/static/solid-navy-blue-concrete-textured-wall.jpg');
+    background-image: url("/static/solid-navy-blue-concrete-textured-wall.jpg");
     color: #ffffff;
 }
 .navbar {
@@ -9,20 +9,27 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 20px;
-    background-color: #000000;
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 .navbar a {
     color: #ffffff;
     text-decoration: none;
     margin: 0 15px;
     font-size: 16px;
+    transition: color 0.3s ease;
 }
 .navbar a:hover {
-    text-decoration: underline;
+    color: #7f00ff;
 }
 .navbar .logo {
     font-size: 24px;
     font-weight: bold;
+    color: #ffffff;
 }
 .navbar .profile {
     width: 40px;
@@ -70,16 +77,27 @@ body {
 .features {
     display: flex;
     justify-content: center;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     padding: 50px 20px;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 .feature {
     background-color: #1e1e1e;
     border-radius: 10px;
-    padding: 30px;
-    margin: 10px;
-    width: 250px;
+    padding: 20px;
+    width: calc(25% - 15px);
     text-align: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.feature:hover {
+    transform: translateY(-5px);
+    background-color: #2a2a2a;
+    border-color: #7f00ff;
+    box-shadow: 0 5px 15px rgba(127, 0, 255, 0.2);
 }
 .feature i {
     font-size: 36px;
@@ -88,20 +106,45 @@ body {
 }
 .feature h3 {
     font-size: 24px;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+    color: #ffffff;
 }
 .feature p {
     font-size: 16px;
     color: #a0a0a0;
+    line-height: 1.5;
 }
 .btn-group {
     display: flex;
     justify-content: center;
     gap: 20px;
 }
-.logo{
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.logo-image {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
+.logo {
     font-size: 24px;
     font-weight: bold;
     color: #ffffff;
-    text-align: center;
+}
+@media (max-width: 900px) {
+    .features {
+        flex-wrap: wrap;
+    }
+    
+    .feature {
+        width: calc(50% - 20px);
+    }
+}
+@media (max-width: 600px) {
+    .feature {
+        width: 100%;
+    }
 }

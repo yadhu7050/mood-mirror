@@ -7,30 +7,38 @@
     <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
-    <div class="nav-links">
-        <a href="/">Home</a>
-        <a href="/journal">New Entry</a>
-        <a href="/history">History</a>
-        <a href="/analysis">Analysis</a>
-        <a href="/logout">Logout</a>
+    <div class="navbar">
+        <div class="logo-container">
+            <img src="/static/logo2.png" alt="MoodMirror Logo" class="logo-image">
+            <div class="logo">MoodMirror</div>
+        </div>
+        <div>
+            <a href="/">Home🏠</a>
+            <a href="/journal">New Entry📕</a>
+            <a href="/history">History📖</a>
+            <a href="/analysis">Analysis📊</a>
+            <a href="/chatbot">Chatbot🤖</a>
+            <a href="/logout">Logout⏻</a>
+        </div>
     </div>
-
-    <div class="chatbot-container">
-        <div class="chat-header">
-            <h2>🤖 MoodMirror AI Therapist</h2>
-        </div>
-        
-        <div class="chat-messages" id="chat-messages">
-            <div class="message bot-message">
-                Hello! I'm here to listen and help. How are you feeling today?
+    <div class="content-wrapper">
+        <div class="chatbot-container">
+            <div class="chat-header">
+                <h2>🤖 MoodMirror AI Therapist</h2>
             </div>
-        </div>
-        
-        <div class="chat-input">
-            <form id="chat-form">
-                <input type="text" id="user-input" placeholder="Type your message here..." autocomplete="off">
-                <button type="submit">Send</button>
-            </form>
+            
+            <div class="chat-messages" id="chat-messages">
+                <div class="message bot-message">
+                    Hello! I'm here to listen and help. How are you feeling today?
+                </div>
+            </div>
+            
+            <div class="chat-input">
+                <form id="chat-form">
+                    <input type="text" id="user-input" placeholder="Type your message here..." autocomplete="off">
+                    <button type="submit">Send</button>
+                </form>
+            </div>
         </div>
     </div>
 
