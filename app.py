@@ -681,5 +681,6 @@ def init_database():
 # Update your main block
 if __name__ == '__main__':
     init_database()  # Only creates tables if they don't exist
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
 
