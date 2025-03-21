@@ -54,3 +54,5 @@ document.getElementById('signupForm').addEventListener('submit', function(e) {
 		alert('An error occurred. Please try again.');
 	});
 });
+
+// Remove the reset password form handler

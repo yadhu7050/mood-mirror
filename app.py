@@ -10,8 +10,6 @@ from transformers import pipeline  # Added import
 from collections import Counter
 from datetime import timedelta
 import requests
-from itsdangerous import URLSafeTimedSerializer
-from flask_mail import Mail, Message
 
 # Mistral AI API settings
 MISTRAL_API_URL = "https://api.mistral.ai/v1/chat/completions"
@@ -99,12 +97,6 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{os.path.join(basedir, "instance", "data.db")}'
 app.config['SECRET_KEY'] = '1234'  # You can generate a more secure key for production
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-app.config['MAIL_PORT'] = 587
-app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = 'moodmirrorsree@gmail.com'  # Replace with your Gmail
-app.config['MAIL_PASSWORD'] = 'A1234_56789a'     # Replace with your Gmail App Password
-app.config['MAIL_DEFAULT_SENDER'] = 'moodmirrorsree@gmail.com'
 
 # Initialize SQLAlchemy and LoginManager
 db = SQLAlchemy(app)
@@ -125,6 +117,7 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(200), nullable=False)
     name = db.Column(db.String(100))
+    date_of_birth = db.Column(db.String(10))  # Store DOB as string in YYYY-MM-DD format
     emotional_score = db.Column(db.Integer, default=50)
     journals = db.relationship('Journal', backref='author', lazy=True)
 
@@ -253,8 +246,9 @@ def signup():
         name = request.form.get('name')
         email = request.form.get('email')
         password = request.form.get('password')
+        date_of_birth = request.form.get('date_of_birth')  # New field for DOB
         
-        if not name or not email or not password:
+        if not name or not email or not password or not date_of_birth:
             return jsonify({"success": False, "message": "Please fill in all fields"})
             
         if '@' not in email or '.' not in email:
@@ -262,13 +256,19 @@ def signup():
             
         if len(password) < 6:
             return jsonify({"success": False, "message": "Password must be at least 6 characters long"})
+            
+        # Validate date format (YYYY-MM-DD)
+        try:
+            datetime.strptime(date_of_birth, '%Y-%m-%d')
+        except ValueError:
+            return jsonify({"success": False, "message": "Please enter a valid date in YYYY-MM-DD format"})
 
         existing_user = User.query.filter_by(email=email).first()
         if existing_user:
             return jsonify({"success": False, "message": "An account with this email already exists"})
 
         try:
-            new_user = User(name=name, email=email)
+            new_user = User(name=name, email=email, date_of_birth=date_of_birth)
             new_user.set_password(password)
             db.session.add(new_user)
             db.session.commit()
@@ -681,49 +681,5 @@ def init_database():
 # Update your main block
 if __name__ == '__main__':
     init_database()  # Only creates tables if they don't exist
-    mail = Mail(app)
-    serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
     app.run(debug=True)
 
-@app.route('/reset-password', methods=['POST'])
-def reset_password():
-    try:
-        data = request.get_json()
-        email = data.get('email')
-        new_password = data.get('newPassword')
-        
-        if not email or not new_password:
-            return jsonify({
-                "success": False,
-                "message": "Please fill in all fields"
-            })
-        
-        if len(new_password) < 6:
-            return jsonify({
-                "success": False,
-                "message": "Password must be at least 6 characters long"
-            })
-        
-        # Find user by email
-        user = User.query.filter_by(email=email).first()
-        if not user:
-            return jsonify({
-                "success": False,
-                "message": "No account found with this email"
-            })
-        
-        # Update password
-        user.set_password(new_password)
-        db.session.commit()
-        
-        return jsonify({
-            "success": True,
-            "message": "Password reset successful. Please login with your new password."
-        })
-        
-    except Exception as e:
-        print(f"Password reset error: {str(e)}")
-        return jsonify({
-            "success": False,
-            "message": "An error occurred. Please try again."
-        })
