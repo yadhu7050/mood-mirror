@@ -1,11 +1,4 @@
 Flask
 Flask-SQLAlchemy
-collections
-datetime
-flask_login
-json
-os
-random
-requests
-transformers
-werkzeug
+psycopg2-binary
+gunicorn
