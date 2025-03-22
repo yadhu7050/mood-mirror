@@ -1,24 +1,11 @@
-Flask==2.1.2
-python-3.10.11
-Flask-SQLAlchemy==2.5.1
-Flask-Login==0.6.2
-SQLAlchemy==1.4.32
-Werkzeug==2.1.2
-torch==1.11.0  
-requests==2.28.1
-gunicorn==20.1.0
-# Flask and its extensions
-
-flask-cors==3.0.10
-
-# Gunicorn for WSGI server (needed for Render)
-gunicorn==20.1.0
-
-# PyTorch (adjusted for Render deployment)
-torch==1.13.0+cpu
---extra-index-url https://download.pytorch.org/whl/cpu
-
-# Hugging Face Transformers and Tokenizers (for AI models)
-transformers==4.28.1
-tokenizers==0.13.3
-
+Flask
+Flask-SQLAlchemy
+collections
+datetime
+flask_login
+json
+os
+random
+requests
+transformers
+werkzeug
