@@ -3,5 +3,5 @@ Flask-SQLAlchemy
 flask-login
 psycopg2-binary
 gunicorn
-transformers
+transformers>=4.30.0
 torch==2.0.1
