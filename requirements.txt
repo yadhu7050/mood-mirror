@@ -4,5 +4,4 @@ flask-login
 psycopg2-binary
 gunicorn
 transformers
-collections
 torch==2.0.1
