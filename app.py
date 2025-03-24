@@ -419,7 +419,6 @@ def signup_quiz():
 def journal():
     if request.method == "POST":
         try:
-            # Check if it's an AJAX request for analysis
             if request.is_json:
                 data = request.get_json()
                 text = data.get('journal_text')
@@ -434,7 +433,6 @@ def journal():
                 # Get suggestions
                 suggestion_data = get_dynamic_suggestion(primary_emotion, secondary_emotion, text)
                 
-                # Return analysis results with emotions
                 return jsonify({
                     "success": True,
                     "primary_emotion": primary_emotion,
@@ -452,48 +450,35 @@ def journal():
                 title = request.form.get("title")
                 reason = request.form.get("reason")
                 
-                if not text or not title or not reason:
-                    flash("Please fill in all required fields", "error")
-                    return redirect(url_for("journal"))
-                
-                # Analyze emotions
+                # Analyze emotions before saving
                 emotion_results = emotion_pipeline(text)[0]
                 primary_emotion = emotion_results[0]['label']
                 primary_emotion_percentage = emotion_results[0]['score'] * 100
                 secondary_emotion = emotion_results[1]['label']
                 secondary_emotion_percentage = emotion_results[1]['score'] * 100
                 
-                # Update user's emotional score based on primary emotion
-                mood_value = MOOD_VALUES.get(primary_emotion, 0)
-                current_user.emotional_score = max(0, min(100, current_user.emotional_score + mood_value))
-                
-                # Create journal entry
+                # Create and save journal entry with emotion data
                 entry = Journal(
                     user_id=current_user.id,
                     title=title,
                     text=text,
                     reason=reason,
                     date=datetime.utcnow(),
-                    mood=primary_emotion,
                     primary_emotion=primary_emotion,
                     primary_emotion_percentage=primary_emotion_percentage,
                     secondary_emotion=secondary_emotion,
                     secondary_emotion_percentage=secondary_emotion_percentage
                 )
                 
-                # Save both the journal entry and the updated emotional score
                 db.session.add(entry)
                 db.session.commit()
                 
-                flash("Journal entry saved successfully!", "success")
                 return redirect(url_for("history"))
-            
+                
         except Exception as e:
             print(f"Error in journal route: {str(e)}")
             if request.is_json:
                 return jsonify({"success": False, "error": str(e)}), 500
-            db.session.rollback()
-            flash(f"An error occurred: {str(e)}", "error")
             return redirect(url_for("journal"))
     
     return render_template("journal.html")
@@ -512,24 +497,31 @@ def history():
         # Format entries for display
         formatted_entries = []
         for entry in entries:
-            formatted_entry = {
-                'id': entry.id,
-                'title': entry.title,
-                'text': entry.text,
-                'reason': entry.reason,
-                'date': entry.date.strftime('%Y-%m-%d %H:%M'),
-                'mood': entry.mood,
-                'primary_emotion': entry.primary_emotion,
-                'primary_emotion_percentage': round(entry.primary_emotion_percentage, 2),
-                'secondary_emotion': entry.secondary_emotion,
-                'secondary_emotion_percentage': round(entry.secondary_emotion_percentage, 2)
-            }
-            formatted_entries.append(formatted_entry)
+            try:
+                formatted_entry = {
+                    'id': entry.id,
+                    'title': entry.title,
+                    'text': entry.text,
+                    'reason': entry.reason,
+                    'date': entry.date.strftime('%Y-%m-%d %H:%M'),
+                    'primary_emotion': entry.primary_emotion or 'Not analyzed',
+                    'primary_emotion_percentage': round(float(entry.primary_emotion_percentage or 0), 2),
+                    'secondary_emotion': entry.secondary_emotion or 'Not analyzed',
+                    'secondary_emotion_percentage': round(float(entry.secondary_emotion_percentage or 0), 2)
+                }
+                formatted_entries.append(formatted_entry)
+            except Exception as entry_error:
+                print(f"Error formatting entry {entry.id}: {str(entry_error)}")
+                continue
+        
+        if not formatted_entries:
+            flash("No journal entries found.", "info")
         
         return render_template('history.html', entries=formatted_entries)
     
     except Exception as e:
-        flash("Error loading journal entries", "error")
+        print(f"Error in history route: {str(e)}")
+        flash("Error loading journal entries. Please try again.", "error")
         return render_template('history.html', entries=[])
 
 # Route for Logout

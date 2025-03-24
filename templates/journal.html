@@ -88,12 +88,12 @@
         const text = document.getElementById('journal_text').value;
         const title = document.querySelector('input[name="title"]').value;
         const reason = document.getElementById('selected-reason').value;
-
+    
         if (!text || !title || !reason) {
             alert('Please fill in all fields before analyzing');
             return;
         }
-
+    
         try {
             const response = await fetch('/journal', {
                 method: 'POST',
@@ -107,22 +107,29 @@
                     reason: reason
                 })
             });
-
+    
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-
+    
             const data = await response.json();
             
             if (data.success) {
-                // Show analysis results
+                // Show analysis results and feedback container
                 document.getElementById('analysis-results').style.display = 'block';
+                document.querySelector('.feedback-container').style.display = 'block';
                 
                 // Update emotions
                 document.getElementById('primary-emotion').textContent = data.primary_emotion;
                 document.getElementById('primary-percentage').textContent = data.primary_emotion_percentage;
                 document.getElementById('secondary-emotion').textContent = data.secondary_emotion;
                 document.getElementById('secondary-percentage').textContent = data.secondary_emotion_percentage;
+                
+                // Update hidden fields
+                document.getElementById('primary_emotion_hidden').value = data.primary_emotion;
+                document.getElementById('primary_emotion_percentage_hidden').value = data.primary_emotion_percentage;
+                document.getElementById('secondary_emotion_hidden').value = data.secondary_emotion;
+                document.getElementById('secondary_emotion_percentage_hidden').value = data.secondary_emotion_percentage;
                 
                 // Update suggestion and quote
                 document.getElementById('suggestion-text').textContent = data.suggestion;
@@ -160,23 +167,45 @@
     // Add this new code for star rating functionality
     document.addEventListener('DOMContentLoaded', function() {
         const stars = document.querySelectorAll('.star');
+        let selectedRating = 0;
         
         stars.forEach(star => {
             star.addEventListener('mouseover', function() {
-                const rating = this.getAttribute('data-rating');
-                highlightStars(rating);
+                if (!selectedRating) {  // Only highlight if no rating selected
+                    const rating = this.getAttribute('data-rating');
+                    highlightStars(rating);
+                }
             });
             
             star.addEventListener('mouseout', function() {
-                resetStars();
+                if (!selectedRating) {  // Only reset if no rating selected
+                    resetStars();
+                }
             });
             
             star.addEventListener('click', function() {
-                const rating = this.getAttribute('data-rating');
-                submitFeedback(rating);
+                selectedRating = parseInt(this.getAttribute('data-rating'));
+                submitFeedback(selectedRating);
             });
         });
     });
+    
+    function submitFeedback(rating) {
+        const stars = document.querySelectorAll('.star');
+        stars.forEach(star => {
+            const starRating = parseInt(star.getAttribute('data-rating'));
+            if (starRating <= rating) {
+                star.classList.add('active');
+                star.style.color = '#FFD700'; // Force golden color
+            } else {
+                star.classList.remove('active');
+                star.style.color = 'rgba(255, 255, 255, 0.2)'; // Reset to default
+            }
+            star.style.pointerEvents = 'none'; // Disable further interaction
+        });
+        
+        document.getElementById('feedback-message').style.display = 'block';
+    }
     
     function highlightStars(rating) {
         const stars = document.querySelectorAll('.star');
@@ -198,35 +227,52 @@
     
     function submitFeedback(rating) {
         // Highlight the selected stars permanently
-        highlightStars(rating);
+        const stars = document.querySelectorAll('.star');
+        stars.forEach(star => {
+            const starRating = parseInt(star.getAttribute('data-rating'));
+            if (starRating <= rating) {
+                star.classList.add('active');
+            } else {
+                star.classList.remove('active');
+            }
+            // Disable pointer events after rating
+            star.style.pointerEvents = 'none';
+        });
         
-        // Send the rating to the server
-        fetch('/submit_feedback', {
+        // Show thank you message
+        document.getElementById('feedback-message').style.display = 'block';
+    }
+    // Add this event listener for the form
+    document.getElementById('journalForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Submit the form data
+        fetch('/journal', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                rating: parseInt(rating)
-            })
+            body: new FormData(this)
         })
-        .then(response => response.json())
-        .then(data => {
-            // Show thank you message
-            document.getElementById('feedback-message').style.display = 'block';
-            
-            // Disable further rating
-            const stars = document.querySelectorAll('.star');
-            stars.forEach(star => {
-                star.style.pointerEvents = 'none';
-            });
+        .then(response => {
+            if (response.ok) {
+                window.location.href = '/history';
+            }
         })
         .catch(error => {
-            console.error('Error submitting feedback:', error);
-            // Still show thank you message even if there's an error
-            document.getElementById('feedback-message').style.display = 'block';
+            console.error('Error:', error);
+            alert('An error occurred while saving the journal entry.');
         });
-    }
+    });
     </script>
 </body>
 </html>
+
+<form id="journalForm" action="/journal" method="POST">
+    <!-- ... existing form fields ... -->
+    
+    <!-- Add these hidden fields -->
+    <input type="hidden" name="primary_emotion" id="primary_emotion_hidden">
+    <input type="hidden" name="primary_emotion_percentage" id="primary_emotion_percentage_hidden">
+    <input type="hidden" name="secondary_emotion" id="secondary_emotion_hidden">
+    <input type="hidden" name="secondary_emotion_percentage" id="secondary_emotion_percentage_hidden">
+    
+    <!-- ... rest of the form ... -->
+</form>

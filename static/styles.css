@@ -536,6 +536,7 @@ canvas {
     border-top: 1px solid rgba(255, 255, 255, 0.2);
 }
 
+/* Update the star rating styles */
 .star-rating {
     display: flex;
     justify-content: center;
@@ -543,21 +544,103 @@ canvas {
 }
 
 .star {
-    font-size: 30px;
-    color: rgba(255, 255, 255, 0.3);
+    font-size: 35px; /* Made stars bigger */
+    color: rgba(255, 255, 255, 0.2);
     cursor: pointer;
-    transition: color 0.3s ease;
-    margin: 0 5px;
+    transition: all 0.3s ease;
+    margin: 0 8px;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }
 
 .star:hover, .star.active {
-    color: #FFD700; /* Gold color for stars */
+    color: #FFD700;
+    transform: scale(1.2);
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
 }
 
-#feedback-message {
-    color: #4CAF50;
+/* Update suggestion styles */
+.suggestion {
+    background: rgba(255, 255, 255, 0.08);
+    padding: 25px;
+    border-radius: 15px;
+    margin-top: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.suggestion blockquote {
+    border-left: none; /* Removed the green line */
+    padding: 20px;
+    margin: 15px 0;
+    color: #fff;
     font-style: italic;
-    margin-top: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    position: relative;
+}
+
+.suggestion blockquote::before {
+    content: '"';
+    font-size: 60px;
+    position: absolute;
+    left: 10px;
+    top: -10px;
+    opacity: 0.3;
+    color: #FFD700;
+}
+
+/* Update media links */
+.media-links {
+    margin-top: 20px;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.media-links a {
+    display: inline-block;
+    padding: 12px 20px;
+    color: #fff;
+    text-decoration: none;
+    background: rgba(76, 175, 80, 0.2);
+    border-radius: 25px;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(76, 175, 80, 0.3);
+}
+
+.media-links a:hover {
+    background: rgba(76, 175, 80, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    text-decoration: none;
+}
+
+/* Update emotions analysis */
+.emotions-analysis {
+    background: rgba(255, 255, 255, 0.08);
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.emotions-analysis p {
+    margin: 10px 0;
+    color: #fff;
+    font-size: 1.1em;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Update feedback message */
+#feedback-message {
+    color: #FFD700;
+    font-style: italic;
+    margin-top: 15px;
     animation: fadeIn 0.5s ease-out;
+    font-size: 1.1em;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 

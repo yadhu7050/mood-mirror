@@ -1,226 +1,156 @@
 {
-   "admiration": [
+    "grief": [
         {
-            "text": "Think about someone who inspires you and what qualities you admire in them.",
-            "quote": "‘Admiration is a powerful force that compels us to grow beyond ourselves.’ — Unknown",
-            "video_link": "https://youtu.be/_2btmGJPLPA?feature=shared",
-            "playlist_link": "https://open.spotify.com/playlist/5zXSEk69XwLGa1eD1SYEhw?si=RzdJB2EBR2uO-8ls_1UTkA"
+            "text": "Allow yourself to feel and process your emotions—it's okay to grieve.",
+            "quote": "‘Grief is the price we pay for love.’ — Queen Elizabeth II",
+            "video_link": "https://www.youtube.com/watch?v=eEcaUhxAH2g",
+            "playlist_link": "https://open.spotify.com/playlist/1NIlouPwHi81SPIfHf213T"
         },
         {
-            "text": "Express your admiration to someone today—it can brighten their day!",
-            "quote": "‘The more you praise and celebrate your life, the more there is in life to celebrate.’ — Oprah Winfrey",
-            "video_link": "https://youtu.be/KXqxrhdh_1Q?feature=shared",
-            "playlist_link": "https://open.spotify.com/playlist/5zXSEk69XwLGa1eD1SYEhw?si=RzdJB2EBR2uO-8ls_1UTkA"
+            "text": "Reach out to someone you trust—you don't have to go through this alone.",
+            "quote": "‘What we have once enjoyed deeply we can never lose. All that we love deeply becomes a part of us.’ — Helen Keller",
+            "video_link": "https://www.youtube.com/watch?v=gsYL4PC0hyk",
+            "playlist_link": "https://open.spotify.com/playlist/37i9dQZF1EVHGWrwldPRtj"
         }
     ],
-    "amusement": [
+    "joy": [
         {
-            "text": "Watch a funny video or listen to a comedy podcast to lighten your mood.",
-            "quote": "‘Laughter is an instant vacation.’ — Milton Berle",
-            "video_link": "https://youtu.be/iR-JFks6uI0?feature=shared",
-            "playlist_link": "https://open.spotify.com/playlist/5wgMExgwJnfebFy6WtYYik?si=FdTRUHBFR-qZeQD4TzEt4A"
-        },
-        {
-            "text": "Laughter is great for the soul! Share a joke with a friend.",
-            "quote": "‘A day without laughter is a day wasted.’ — Charlie Chaplin",
-            "video_link": "https://youtu.be/CBi0HUmTrkI?feature=shared",
-            "playlist_link": "https://open.spotify.com/playlist/5wgMExgwJnfebFy6WtYYik?si=FdTRUHBFR-qZeQD4TzEt4A"
-        }
-    ],
-    "anger": [
-        {
-            "text": "Try deep breathing or a quick workout to release pent-up energy.",
-            "quote": "‘You will not be punished for your anger, you will be punished by your anger.’ — Buddha",
-            "video_link": "https://youtu.be/kZWhem4kiwE?feature=shared",
-            "playlist_link": "https://open.spotify.com/playlist/3oC5zDKtosk5RSDwhNL9aT?si=oimkxPtlTOK3p6dNHsw8fQ"
-        },
-        {
-            "text": "Writing down your thoughts can help process your emotions.",
-            "quote": "‘The only way out of the labyrinth of suffering is to forgive.’ — John Green",
-            "video_link": "https://www.youtube.com/watch?v=TTt0e6kYmTY",
-            "playlist_link": "https://open.spotify.com/playlist/3oC5zDKtosk5RSDwhNL9aT?si=oimkxPtlTOK3p6dNHsw8fQ"
-        }
-    ],
-    "annoyance": [
-        {
-            "text": "Take a short break and practice mindfulness to reset your mindset.",
-            "quote": "‘Small things make big things happen.’ — John Wooden",
-            "video_link": "https://youtu.be/tm8L83Vdaw4?feature=shared",
-            "playlist_link": "https://open.spotify.com/playlist/37i9dQZF1DWXe9gFZP0gtP?si=1ZcvUJhlQUKCsCFWZFaLLg"
-        },
-        {
-            "text": "Remind yourself that small annoyances are temporary.",
-            "quote": "‘This too shall pass.’ — Unknown",
-            "video_link": "https://youtu.be/wLj3FSd79i4?feature=shared",
-            "playlist_link": "https://open.spotify.com/playlist/37i9dQZF1DWXe9gFZP0gtP?si=1ZcvUJhlQUKCsCFWZFaLLg"
-        }
-    ],
-    "approval": [
-        {
-            "text": "Recognize your achievements, no matter how small, and reward yourself.",
-            "quote": "‘The only limit to our realization of tomorrow is our doubts of today.’ — Franklin D. Roosevelt",
-            "video_link": "https://youtu.be/efZFARmGyMs?si=GUXSOhfHDqImcZIA",
-            "playlist_link": "https://open.spotify.com/playlist/4kOdiP5gbzocwxQ8s2UTOF?si=fe4eda5eb956477f"
-        },
-        {
-            "text": "Give yourself credit for your hard work and dedication.",
-            "quote": "‘Believe you can and you're halfway there.’ — Theodore Roosevelt",
-            "video_link": "https://youtu.be/yo1pJ_D-H3M?si=VxO_XUurz9O-f4bH",
-            "playlist_link": "https://open.spotify.com/playlist/4kOdiP5gbzocwxQ8s2UTOF?si=fe4eda5eb956477f"
-        }
-    ],
-    "caring": [
-        {
-            "text": "Reach out to a friend or family member and check in on them.",
-            "quote": "‘Too often we underestimate the power of a touch, a smile, a kind word, a listening ear, an honest compliment, or the smallest act of caring, all of which have the potential to turn a life around.’ — Leo Buscaglia",
-            "video_link": "https://youtu.be/zcruIov45bI?si=mFBSRmj3w9kBLNq5",
-            "playlist_link": "https://open.spotify.com/playlist/3y5Q69dMWbex1N1D1dv8Qi?si=016462a2aae64a32"
-        },
-        {
-            "text": "Small acts of kindness can make a big impact on someone's day.",
-            "quote": "‘No act of kindness, no matter how small, is ever wasted.’ — Aesop",
-            "video_link": "https://youtu.be/QMnEP2DYfmI?si=pYEz2LOlj93dliBX",
-            "playlist_link": "https://open.spotify.com/playlist/3y5Q69dMWbex1N1D1dv8Qi?si=016462a2aae64a32"
-        }
-    ],
-    "confusion": [
-        {
-            "text": "Write down your thoughts to organize them or seek advice from someone you trust.",
-            "quote": "‘Confusion is the welcome mat at the door of creativity.’ — Michael J. Gelb",
-            "video_link": "https://youtu.be/X7j8F16eSqs?si=j5h0_vwY_hfzRCnk",
-            "playlist_link": "https://open.spotify.com/album/20s8MvS66EURHtY9Ya3ERs?si=4cCCLFRsS96h2kCDag-Z5w"
-        },
-        {
-            "text": "It's okay to not have all the answers—take things one step at a time.",
-            "quote": "‘Life is 10% what happens to us and 90% how we react to it.’ — Charles R. Swindoll",
-            "video_link": "https://youtu.be/xLSAkVxPOk0?si=gQxJKLSGc1RI9mu4",
-            "playlist_link": "https://open.spotify.com/album/20s8MvS66EURHtY9Ya3ERs?si=4cCCLFRsS96h2kCDag-Z5w"
-        }
-    ],
-    "curiosity": [
-        {
-            "text": "Explore a new topic or skill that excites you.",
-            "quote": "‘Curiosity is the wick in the candle of learning.’ — William Arthur Ward",
-            "video_link": "https://youtu.be/LNHBMFCzznE?si=-bX9aXT5AyzBiSfE",
-            "playlist_link": "https://open.spotify.com/album/1V3SPr45Sj8uRuAup6Dd2l?si=NByfUX1aRFGVuBdu7qL1Yg"
-        },
-        {
-            "text": "Curiosity fuels growth! Look up something new today.",
-            "quote": "‘The important thing is not to stop questioning. Curiosity has its own reason for existing.’ — Albert Einstein",
-            "video_link": "https://youtube.com/shorts/DT3Jfvp-Y1A?si=3C6k8r92hn_h26wO",
-            "playlist_link": "https://open.spotify.com/album/1V3SPr45Sj8uRuAup6Dd2l?si=NByfUX1aRFGVuBdu7qL1Yg"
-        }
-    ],
-    "desire": [
-        {
-            "text": "Set a small goal that aligns with what you truly want and take the first step today.",
-            "quote": "‘Desire is the starting point of all achievement.’ — Napoleon Hill",
-            "video_link": "https://youtu.be/TQMbvJNRpLE?si=fLWPFpSwzQWMnoA-",
-            "playlist_link": "https://open.spotify.com/artist/00WqZVAC8plAECRF34lDqL?si=LvRCbOclSeW7TTsVru3lEg"
-        },
-        {
-            "text": "Reflect on what you desire and create a plan to move closer to it.",
-            "quote": "‘Success is the progressive realization of a worthy goal or ideal.’ — Earl Nightingale",
-            "video_link": "https://youtu.be/r-zXv7aYYqY?si=A8_xKzVrjd27pkrb",
-            "playlist_link": "https://open.spotify.com/artist/00WqZVAC8plAECRF34lDqL?si=LvRCbOclSeW7TTsVru3lEg"
-        }
-    ],
-    "disappointment": [
-        {
-            "text": "Remember that setbacks are part of growth. Reflect on what you learned and move forward.",
-            "quote": "‘Failure is only the opportunity to begin again, this time more intelligently.’ — Henry Ford",
-            "video_link": "https://youtu.be/Dbb4htY9ldw?si=rhtj8RDHm-aCnJWE",
-            "playlist_link": "https://open.spotify.com/playlist/6Sqga5OO2KJfD55EfI4KRN?si=0cf4a72aca9f41d4"
-        },
-        {
-            "text": "It's okay to feel disappointed, but don't let it define your future.",
-            "quote": "‘Success is not final, failure is not fatal: It is the courage to continue that counts.’ — Winston Churchill",
-            "video_link": "https://youtu.be/HwLK9dBQn0g?si=ji7YGI4VhWIK4FD0",
-            "playlist_link": "https://open.spotify.com/playlist/6Sqga5OO2KJfD55EfI4KRN?si=0cf4a72aca9f41d4"
-        }
-    ],
-    "disapproval": [
-        {
-            "text": "Focus on constructive feedback and how it can help you improve.",
-            "quote": "‘The only real mistake is the one from which we learn nothing.’ — Henry Ford",
-            "video_link": "https://www.youtube.com/watch?v=53Yu91Ya0wY",
-            "playlist_link": "https://open.spotify.com/playlist/37i9dQZF1DWYBO1MoTDhZI"
-        },
-        {
-            "text": "Understand the reasons behind disapproval and use it as a learning experience.",
-            "quote": "‘A mistake that makes you humble is better than an achievement that makes you arrogant.’ — Unknown",
-            "video_link": "https://www.youtube.com/watch?v=eBz7iUJu9UM",
-            "playlist_link": "https://open.spotify.com/playlist/37i9dQZF1DX2SK4ytI2KAZ"
-        }
-    ],
-    "disgust": [
-        {
-            "text": "Take a moment to ground yourself with a deep breath and shift your focus to something positive.",
-            "quote": "‘You are the average of the five people you spend the most time with.’ — Jim Rohn",
-            "video_link": "https://www.youtube.com/watch?v=wLj3FSd79i4",
-            "playlist_link": "https://open.spotify.com/playlist/37i9dQZF1DX3rxVfibe1L0"
-        },
-        {
-            "text": "Try to reframe your perspective and focus on things that bring you joy.",
-            "quote": "‘Happiness depends upon ourselves.’ — Aristotle",
-            "video_link": "https://www.youtube.com/watch?v=iz0yM5YoIow",
-            "playlist_link": "https://open.spotify.com/playlist/37i9dQZF1DXcNb6Ba0LuVc"
-        }
-    ],
-    "embarrassment": [
-        {
-            "text": "Everyone makes mistakes. Laugh it off and remind yourself that it’s part of being human.",
-            "quote": "‘Humility is not thinking less of yourself, it’s thinking of yourself less.’ — C.S. Lewis",
-            "video_link": "https://www.youtube.com/watch?v=9MW1OWcb39M",
+            "text": "Savor this moment of joy—share it with someone special!",
+            "quote": "‘Joy is the simplest form of gratitude.’ — Karl Barth",
+            "video_link": "https://www.youtube.com/watch?v=iR-JFks6uI0",
             "playlist_link": "https://open.spotify.com/playlist/37i9dQZF1DXdPec7aLTmlC"
         },
         {
-            "text": "No one remembers small embarrassing moments as much as you do—let it go!",
-            "quote": "‘Don’t take life too seriously. You’ll never get out of it alive.’ — Elbert Hubbard",
-            "video_link": "https://www.youtube.com/watch?v=_tcZO73dB24",
-            "playlist_link": "https://open.spotify.com/playlist/37i9dQZF1DXcNb6Ba0LuVc"
+            "text": "Do something that makes your heart happy today.",
+            "quote": "‘The joy we feel has little to do with the circumstances of our lives and everything to do with the focus of our lives.’ — Russell M. Nelson",
+            "video_link": "https://www.youtube.com/watch?v=ZbZSe6N_BXs",
+            "playlist_link": "https://open.spotify.com/playlist/37i9dQZF1DX3rxVfibe1L0"
         }
     ],
-    "excitement": [
+    "love": [
         {
-            "text": "Channel your energy into something creative or start planning your next adventure.",
-            "quote": "‘Energy and persistence conquer all things.’ — Benjamin Franklin",
-            "video_link": "https://www.youtube.com/watch?v=ldPuBk7a9V4",
-            "playlist_link": "https://open.spotify.com/playlist/37i9dQZF1DWXahxq4Q8el6"
+            "text": "Express your love to someone today—it could make their day brighter.",
+            "quote": "‘Where there is love there is life.’ — Mahatma Gandhi",
+            "video_link": "https://www.youtube.com/watch?v=QMnEP2DYfmI",
+            "playlist_link": "https://open.spotify.com/playlist/37i9dQZF1DX50QitC6Oqtn"
         },
         {
-            "text": "Let your excitement fuel your motivation—what's next on your list?",
-            "quote": "‘Life is either a daring adventure or nothing at all.’ — Helen Keller",
-            "video_link": "https://www.youtube.com/watch?v=pTgOLLmTQI0",
-            "playlist_link": "https://open.spotify.com/playlist/37i9dQZF1DX5Lm1ZiObdc3"
+            "text": "Practice self-love—treat yourself with kindness and compassion.",
+            "quote": "‘Love yourself first and everything else falls into line.’ — Lucille Ball",
+            "video_link": "https://www.youtube.com/watch?v=f_OPjYQovAE",
+            "playlist_link": "https://open.spotify.com/playlist/37i9dQZF1DWSV3Tk4GO2fq"
         }
     ],
-    "fear": [
+    "nervousness": [
         {
-            "text": "Face your fears in small steps and remind yourself of past times you overcame challenges.",
-            "quote": "‘The only thing we have to fear is fear itself.’ — Franklin D. Roosevelt",
-            "video_link": "https://www.youtube.com/watch?v=s_jaJlyNreM",
-            "playlist_link": ""
-        },
-        {
-            "text": "Breathe deeply and remind yourself that fear is just temporary.",
-            "quote": "‘Fear doesn’t shut you down; it wakes you up.’ — Veronica Roth",
+            "text": "Take deep breaths—you've handled challenges before and you can do it again.",
+            "quote": "‘You gain strength, courage, and confidence by every experience in which you really stop to look fear in the face.’ — Eleanor Roosevelt",
             "video_link": "https://www.youtube.com/watch?v=HT_ZvD94_kE",
-            "playlist_link": "https://open.spotify.com/playlist/37i9dQZF1DX9XIFQuFvzM4"
-        }
-    ],
-    "gratitude": [
-        {
-            "text": "Write down three things you’re grateful for to boost your positive mindset.",
-            "quote": "‘Gratitude is not only the greatest of virtues, but the parent of all the others.’ — Marcus Tullius Cicero",
-            "video_link": "https://www.youtube.com/watch?v=RhuhLc69hF0",
-            "playlist_link": "https://open.spotify.com/playlist/37i9dQZF1DXbtuVQL4zoey"
+            "playlist_link": "https://open.spotify.com/playlist/1s2WRze3Iic7gKzwMr7Bqk"
         },
         {
-            "text": "Expressing gratitude can shift your perspective—try thanking someone today.",
-            "quote": "‘Gratitude is the fairest blossom which springs from the soul.’ — Henry Ward Beecher",
-            "video_link": "https://www.youtube.com/watch?v=WfIazhScLYk",
-            "playlist_link": "https://open.spotify.com/playlist/37i9dQZF1DX5YTAi6JhwZm"
+            "text": "Prepare as much as you can, then trust in your ability to adapt.",
+            "quote": "‘Nervousness is the energy you haven't yet directed toward your goal.’ — Unknown",
+            "video_link": "https://www.youtube.com/watch?v=xNY0AAUtH3g",
+            "playlist_link": "https://open.spotify.com/playlist/1rGX4b54m1FyC9PwrhTYPC"
+        }
+    ],
+    "optimism": [
+        {
+            "text": "Focus on the possibilities—what good could come from today?",
+            "quote": "‘Optimism is the faith that leads to achievement. Nothing can be done without hope and confidence.’ — Helen Keller",
+            "video_link": "https://www.youtube.com/watch?v=WPPPFqsECz0",
+            "playlist_link": "https://open.spotify.com/playlist/37i9dQZF1DX1lVhptIYRda"
+        },
+        {
+            "text": "Start your day by listing three things you're looking forward to.",
+            "quote": "‘Keep your face always toward the sunshine—and shadows will fall behind you.’ — Walt Whitman",
+            "video_link": "https://www.youtube.com/watch?v=SuuX7YKnfuc",
+            "playlist_link": "https://open.spotify.com/playlist/3Ybc0WncdTjFD4PycsTEl9"
+        }
+    ],
+    "pride": [
+        {
+            "text": "Celebrate your accomplishments—you've earned this feeling!",
+            "quote": "‘Take pride in how far you've come and have faith in how far you can go.’ — Unknown",
+            "video_link": "https://www.youtube.com/watch?v=yo1pJ_D-H3M",
+            "playlist_link": "https://open.spotify.com/playlist/37i9dQZF1DX6aTaZa0K6VA"
+        },
+        {
+            "text": "Use this confidence to take on your next challenge.",
+            "quote": "‘Pride is holding your head up when everyone around you has theirs bowed. Courage is what makes you do it.’ — Bryce Courtenay",
+            "video_link": "https://www.youtube.com/watch?v=efZFARmGyMs",
+            "playlist_link": "https://open.spotify.com/playlist/1l4tIeK2kQQI9MyDXnIc7G"
+        }
+    ],
+    "realization": [
+        {
+            "text": "Write down your new insight—it might help you or someone else later.",
+            "quote": "‘Realizations are the universe's way of course-correcting your path.’ — Unknown",
+            "video_link": "https://www.youtube.com/watch?v=AyRKT8MLTwQ",
+            "playlist_link": "https://open.spotify.com/playlist/7MuGX2icynmq9zuklPCbnX"
+        },
+        {
+            "text": "Share your aha moment with someone who might benefit from it.",
+            "quote": "‘The moment you become aware of the thought is the moment you're free from it.’ — Unknown",
+            "video_link": "https://www.youtube.com/watch?v=RhuhLc69hF0",
+            "playlist_link": "https://open.spotify.com/playlist/4QMkYYqlYfiK8LAhPMYVUn"
+        }
+    ],
+    "relief": [
+        {
+            "text": "Take a moment to appreciate this feeling of relief—you made it through!",
+            "quote": "‘Relief is the sweetest emotion because it follows the hardest moments.’ — Unknown",
+            "video_link": "https://www.youtube.com/watch?v=eBz7iUJu9UM",
+            "playlist_link": "https://open.spotify.com/playlist/4rk5E1IOPIpcZseg8cp0rp"
+        },
+        {
+            "text": "Use this calm moment to recharge and reflect.",
+            "quote": "‘After every storm comes relief—sometimes in forms we least expect.’ — Unknown",
+            "video_link": "https://www.youtube.com/watch?v=53Yu91Ya0wY",
+            "playlist_link": https://open.spotify.com/playlist/3tKyCWqLHaVGoiVzoPe68N"
+        }
+    ],
+    "remorse": [
+        {
+            "text": "Learn from this experience—growth often comes from reflection.",
+            "quote": "‘Remorse is the poison of life.’ — Charlotte Brontë",
+            "video_link": "https://www.youtube.com/watch?v=HwLK9dBQn0g",
+            "playlist_link": "https://open.spotify.com/playlist/37i9dQZF1EIYYKdtXCAzH9"
+        },
+        {
+            "text": "If appropriate, make amends—then forgive yourself and move forward.",
+            "quote": "‘To err is human; to forgive, divine.’ — Alexander Pope",
+            "video_link": "https://www.youtube.com/watch?v=Dbb4htY9ldw",
+            "playlist_link": "https://open.spotify.com/playlist/1xHlQAJoaGgm2R6gR3AYlw"
+        }
+    ],
+    "sadness": [
+        {
+            "text": "Be gentle with yourself—it's okay to feel sad sometimes.",
+            "quote": "‘Tears are words that need to be written.’ — Paulo Coelho",
+            "video_link": "https://www.youtube.com/watch?v=gyQX6bU1NIY&t=21s",
+            "playlist_link": "https://open.spotify.com/playlist/3l6b0zuXjgyPxLK6PIAqED"
+        },
+        {
+            "text": "Reach out to someone who cares about you—you're not alone.",
+            "quote": "‘Sadness flies away on the wings of time.’ — Jean de La Fontaine",
+            "video_link": "https://www.youtube.com/watch?v=Jjyx6cMdu7M",
+            "playlist_link": "https://open.spotify.com/playlist/4bRQf8bwAIVgCb6Lcoursx"
+        }
+    ],
+    "surprise": [
+        {
+            "text": "Embrace the unexpected—it might lead to something wonderful!",
+            "quote": "‘Surprise is the greatest gift which life can grant us.’ — Boris Pasternak",
+            "video_link": "https://www.youtube.com/watch?v=ldPuBk7a9V4",
+            "playlist_link": "https://open.spotify.com/playlist/1TK7uv6jM2x3tYhu1JQnqp"
+        },
+        {
+            "text": "Let this surprise remind you that life is full of possibilities.",
+            "quote": "‘The best things in life are unexpected—because there were no expectations.’ — Eli Khamarov",
+            "video_link": "https://www.youtube.com/watch?v=pTgOLLmTQI0",
+            "playlist_link": "https://open.spotify.com/playlist/4kOdiP5gbzocwxQ8s2UTOF"
         }
     ]
 }
