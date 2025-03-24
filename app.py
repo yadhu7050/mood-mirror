@@ -678,6 +678,32 @@ def init_database():
             db.create_all()
             print("Database initialized successfully!")
 
+# Add this route to handle the star rating feedback
+@app.route('/submit_feedback', methods=['POST'])
+@login_required
+def submit_feedback():
+    try:
+        data = request.get_json()
+        rating = data.get('rating')
+        
+        if not rating or not isinstance(rating, int) or rating < 1 or rating > 5:
+            return jsonify({"success": False, "message": "Invalid rating"}), 400
+            
+        # We're not saving the feedback as requested, just acknowledging it
+        print(f"User {current_user.id} rated a suggestion: {rating} stars")
+        
+        return jsonify({
+            "success": True, 
+            "message": "Thank you for your feedback!"
+        })
+        
+    except Exception as e:
+        print(f"Feedback error: {str(e)}")
+        return jsonify({
+            "success": False, 
+            "message": "Error processing feedback"
+        }), 500
+
 # Update your main block
 if __name__ == '__main__':
     init_database()  # Only creates tables if they don't exist

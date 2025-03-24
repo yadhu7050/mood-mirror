@@ -38,6 +38,11 @@ document.getElementById('signupForm').addEventListener('submit', function(e) {
 	
 	const formData = new FormData(this);
 	
+	// Rename the dob field to date_of_birth
+	const dob = formData.get('dob');
+	formData.delete('dob');
+	formData.append('date_of_birth', dob);
+	
 	fetch('/signup', {
 		method: 'POST',
 		body: formData

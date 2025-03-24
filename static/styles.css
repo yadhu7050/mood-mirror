@@ -529,3 +529,35 @@ canvas {
     color: #ffffff;
 }
 
+/* Star Rating Styles */
+.feedback-container {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.star-rating {
+    display: flex;
+    justify-content: center;
+    margin: 10px 0;
+}
+
+.star {
+    font-size: 30px;
+    color: rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    transition: color 0.3s ease;
+    margin: 0 5px;
+}
+
+.star:hover, .star.active {
+    color: #FFD700; /* Gold color for stars */
+}
+
+#feedback-message {
+    color: #4CAF50;
+    font-style: italic;
+    margin-top: 10px;
+    animation: fadeIn 0.5s ease-out;
+}
+

@@ -54,6 +54,19 @@
                         <a id="video-link" href="" target="_blank">Watch a helpful video</a>
                         <a id="playlist-link" href="" target="_blank">Listen to a curated playlist</a>
                     </div>
+                    
+                    <!-- Add star rating system -->
+                    <div class="feedback-container">
+                        <p>Was this suggestion helpful?</p>
+                        <div class="star-rating">
+                            <span class="star" data-rating="1">★</span>
+                            <span class="star" data-rating="2">★</span>
+                            <span class="star" data-rating="3">★</span>
+                            <span class="star" data-rating="4">★</span>
+                            <span class="star" data-rating="5">★</span>
+                        </div>
+                        <p id="feedback-message" style="display: none;">Thank you for your feedback!</p>
+                    </div>
                 </div>
             </div>
 
@@ -142,6 +155,77 @@
             console.error('Error:', error);
             alert('An error occurred during analysis. Please try again.');
         }
+    }
+    
+    // Add this new code for star rating functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const stars = document.querySelectorAll('.star');
+        
+        stars.forEach(star => {
+            star.addEventListener('mouseover', function() {
+                const rating = this.getAttribute('data-rating');
+                highlightStars(rating);
+            });
+            
+            star.addEventListener('mouseout', function() {
+                resetStars();
+            });
+            
+            star.addEventListener('click', function() {
+                const rating = this.getAttribute('data-rating');
+                submitFeedback(rating);
+            });
+        });
+    });
+    
+    function highlightStars(rating) {
+        const stars = document.querySelectorAll('.star');
+        stars.forEach(star => {
+            if (star.getAttribute('data-rating') <= rating) {
+                star.classList.add('active');
+            } else {
+                star.classList.remove('active');
+            }
+        });
+    }
+    
+    function resetStars() {
+        const stars = document.querySelectorAll('.star');
+        stars.forEach(star => {
+            star.classList.remove('active');
+        });
+    }
+    
+    function submitFeedback(rating) {
+        // Highlight the selected stars permanently
+        highlightStars(rating);
+        
+        // Send the rating to the server
+        fetch('/submit_feedback', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                rating: parseInt(rating)
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Show thank you message
+            document.getElementById('feedback-message').style.display = 'block';
+            
+            // Disable further rating
+            const stars = document.querySelectorAll('.star');
+            stars.forEach(star => {
+                star.style.pointerEvents = 'none';
+            });
+        })
+        .catch(error => {
+            console.error('Error submitting feedback:', error);
+            // Still show thank you message even if there's an error
+            document.getElementById('feedback-message').style.display = 'block';
+        });
     }
     </script>
 </body>
